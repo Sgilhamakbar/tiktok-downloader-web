@@ -5,199 +5,907 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#2b1055">
     
-    <title>TikTok Downloader</title>
-    
-    <meta name="google-site-verification" content="4t8x7nWvkGhnZdHDLcCBPL0e3HuvbyeKyGfrScRXdGc" />
-
-<head>
+    <!-- Primary Meta Tags -->
     <title>TikTok Downloader - Download Video HD Tanpa Watermark</title>
-    
     <meta name="description" content="Download video TikTok tanpa watermark kualitas HD dan Audio MP3. Gratis, cepat, tanpa aplikasi tambahan. Alat pengunduh TikTok terbaik 2025.">
     <meta name="keywords" content="tiktok downloader, download video tiktok, tiktok no watermark, unduh video tiktok, tiktok mp3, tiktok hd, tiktok saver, tiktok downloader tanpa watermark">
     <meta name="author" content="Partner Coding">
     <meta name="robots" content="index, follow">
-
+    
+    <!-- Open Graph / Facebook -->
     <meta property="og:title" content="TikTok Downloader Premium - No Watermark">
     <meta property="og:description" content="Simpan video TikTok favoritmu dengan kualitas HD. Gratis dan Cepat!">
-    <meta property="og:image" content="https://i.imgur.com/link-gambar-thumbnail-kamu.png"> <meta property="og:url" content="https://nama-app-kamu.onrender.com">
+    <meta property="og:image" content="https://i.imgur.com/link-gambar-thumbnail-kamu.png">
+    <meta property="og:url" content="https://nama-app-kamu.onrender.com">
     <meta property="og:type" content="website">
     
-    </head>
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TikTok Downloader Premium">
+    <meta name="twitter:description" content="Download video TikTok tanpa watermark">
     
+    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
     
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        /* --- 1. RESET & CORE STYLES (FIXED) --- */
-        /* Penting: Memastikan ukuran elemen tidak melebihi layar */
-        * { box-sizing: border-box; } 
+        /* ===== RESET & BASE STYLES ===== */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        :root {
+            --primary-color: #2b1055;
+            --accent-pink: #FE2C55;
+            --accent-teal: #25F4EE;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --bg-dark: #000428;
+            --bg-light: #f0f2f5;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0; padding: 0; color: white;
-            min-height: 100vh; 
-            display: flex; 
-            justify-content: center; /* Center Horizontal */
-            /* align-items: center; Hapus ini agar scroll ke bawah lancar di HP kecil */
-            overflow-x: hidden; 
+            min-height: 100vh;
+            overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
-            background: linear-gradient(-45deg, #000428, #004e92, #4776E6, #8E54E9, #2b1055);
-            background-size: 400% 400%;
-            animation: vibrantFlow 15s ease infinite;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            transition: background 0.3s, color 0.3s;
         }
-        @keyframes vibrantFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        /* --- 2. CONTAINER OPTIMIZED --- */
+        body.light-mode {
+            background: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        /* Animasi background hanya untuk desktop */
+        @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+            body:not(.light-mode) {
+                background: linear-gradient(-45deg, #000428, #004e92, #4776E6, #8E54E9, #2b1055);
+                background-size: 400% 400%;
+                animation: vibrantFlow 15s ease infinite;
+            }
+        }
+
+        @keyframes vibrantFlow { 
+            0% { background-position: 0% 50%; } 
+            50% { background-position: 100% 50%; } 
+            100% { background-position: 0% 50%; } 
+        }
+
+        /* ===== MAIN CONTAINER ===== */
         .app-container {
             width: 100%; 
-            max-width: 460px; /* Batas lebar maksimal di PC */
-            /* Padding Default (PC/Tablet) */
-            padding: 40px 24px 100px 24px; 
+            max-width: 460px;
+            min-height: 100vh;
+            padding: 40px 24px 100px 24px;
+            margin: 0 auto;
             display: flex; 
             flex-direction: column; 
             align-items: center;
-            min-height: 100vh;
-            margin: 0 auto; /* Paksa tengah */
         }
 
-        /* --- RESPONSIVE FIX (HP KECIL) --- */
-        @media (max-width: 480px) {
-            .app-container {
-                /* Padding lebih kecil di HP supaya tidak sempit */
-                padding: 30px 16px 80px 16px; 
-            }
-            .logo-glass {
-                width: 80px; height: 80px; /* Logo sedikit mengecil */
-            }
-            .tiktok-icon-glow { font-size: 40px; }
-            h1.logo-text { font-size: 24px; } /* Font judul menyesuaikan */
+        /* ===== HEADER & LOGO ===== */
+        header { 
+            margin-bottom: 30px; 
+            text-align: center; 
+            position: relative; 
+            width: 100%; 
         }
 
-        /* --- 3. HEADER & LOGO --- */
-        header { margin-bottom: 30px; text-align: center; position: relative; width: 100%; }
+        .theme-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .light-mode .theme-toggle {
+            color: var(--text-dark);
+            background: rgba(0, 0, 0, 0.1);
+        }
 
         .logo-glass {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 90px; height: 90px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center;
+            width: 90px; 
+            height: 90px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--glass-border);
             margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            cursor: pointer; user-select: none; transition: transform 0.2s, background 0.5s;
+            cursor: pointer; 
+            user-select: none; 
+            transition: transform 0.2s, background 0.5s;
             position: relative;
         }
-        .logo-glass:active { transform: scale(0.95); }
+
+        .light-mode .logo-glass {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-glass:active { 
+            transform: scale(0.95); 
+        }
 
         .tiktok-icon-glow {
-            font-size: 48px; color: #ffffff;
+            font-size: 48px; 
+            color: var(--text-light);
             filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
             transition: color 0.5s;
         }
 
-        /* SKIN: GOLDEN LOGO (Reward) */
+        .light-mode .tiktok-icon-glow {
+            color: var(--text-dark);
+            filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.2));
+        }
+
+        /* Golden Skin */
         .gold-skin {
             background: linear-gradient(135deg, #FFD700, #FDB931) !important;
             border: 2px solid #FFF8DC !important;
             box-shadow: 0 0 30px rgba(255, 215, 0, 0.6) !important;
         }
-        .gold-skin .tiktok-icon-glow { color: #5a4a00 !important; filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)); }
-
-        /* Counter Badge */
-        .click-badge {
-            position: absolute; top: -5px; right: -5px;
-            background: #FE2C55; color: white;
-            font-size: 10px; font-weight: 800;
-            padding: 4px 8px; border-radius: 20px;
-            border: 2px solid #2b1055;
-            opacity: 0; transition: 0.3s;
+        .gold-skin .tiktok-icon-glow { 
+            color: #5a4a00 !important; 
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)); 
         }
-        .click-badge.visible { opacity: 1; }
 
-        .logo-text { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin: 0; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-        p.subtitle { color: rgba(255,255,255,0.7); font-size: 15px; margin-top: 6px; font-weight: 500; }
+        .click-badge {
+            position: absolute; 
+            top: -5px; 
+            right: -5px;
+            background: var(--accent-pink); 
+            color: white;
+            font-size: 10px; 
+            font-weight: 800;
+            padding: 4px 8px; 
+            border-radius: 20px;
+            border: 2px solid var(--primary-color);
+            opacity: 0; 
+            transition: 0.3s;
+        }
+        .click-badge.visible { 
+            opacity: 1; 
+        }
 
-        /* --- 4. FUN FACT MODAL --- */
+        .logo-text { 
+            font-size: 28px; 
+            font-weight: 800; 
+            letter-spacing: -0.5px; 
+            margin: 0; 
+            color: var(--text-light); 
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2); 
+        }
+
+        .light-mode .logo-text {
+            color: var(--text-dark);
+            text-shadow: none;
+        }
+
+        .subtitle { 
+            color: rgba(255,255,255,0.7); 
+            font-size: 15px; 
+            margin-top: 6px; 
+            font-weight: 500; 
+        }
+
+        .light-mode .subtitle {
+            color: rgba(0,0,0,0.7);
+        }
+
+        /* ===== GLASS CARD COMPONENT ===== */
+        .glass-card { 
+            background: var(--glass-bg); 
+            backdrop-filter: blur(30px); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 24px; 
+            padding: 24px; 
+            width: 100%; 
+            box-sizing: border-box; 
+            margin-bottom: 24px; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); 
+        }
+
+        .light-mode .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* ===== INPUT SECTION ===== */
+        .search-box { 
+            position: relative; 
+            background: rgba(0,0,0,0.2); 
+            border-radius: 18px; 
+            padding: 6px; 
+            border: 1px solid var(--glass-border); 
+            display: flex; 
+            align-items: center; 
+            transition: 0.3s; 
+        }
+
+        .light-mode .search-box {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box:focus-within { 
+            border-color: var(--text-light); 
+            background: rgba(0,0,0,0.3); 
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); 
+        }
+
+        .light-mode .search-box:focus-within {
+            border-color: var(--text-dark);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        input { 
+            flex: 1; 
+            border: none; 
+            background: transparent; 
+            padding: 14px 16px; 
+            color: var(--text-light); 
+            font-size: 16px; 
+            outline: none; 
+            font-family: inherit; 
+            font-weight: 500; 
+            width: 100%; 
+            max-width: calc(100% - 60px);
+        }
+
+        .light-mode input {
+            color: var(--text-dark);
+        }
+
+        input::placeholder { 
+            color: rgba(255,255,255,0.5); 
+        }
+
+        .light-mode input::placeholder {
+            color: rgba(0,0,0,0.5);
+        }
+
+        .btn-paste { 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 12px; 
+            border: none; 
+            background: rgba(255,255,255,0.15); 
+            color: var(--text-light); 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin-right: 5px; 
+            transition: 0.2s; 
+            flex-shrink: 0; 
+        }
+
+        .light-mode .btn-paste {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
+        }
+
+        .btn-paste:active { 
+            background: var(--text-light); 
+            color: var(--primary-color); 
+            transform: scale(0.9); 
+        }
+
+        .light-mode .btn-paste:active {
+            background: var(--text-dark);
+            color: var(--bg-light);
+        }
+
+        .batch-section {
+            margin: 15px 0;
+        }
+
+        #batchInput {
+            display: none;
+            width: 100%; 
+            height: 120px; 
+            margin-top: 15px;
+            background: rgba(0,0,0,0.2); 
+            border: 1px solid var(--glass-border);
+            border-radius: 12px; 
+            padding: 12px; 
+            color: var(--text-light); 
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .light-mode #batchInput {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-main { 
+            width: 100%; 
+            padding: 18px; 
+            margin-top: 20px; 
+            background: var(--text-light); 
+            color: var(--primary-color); 
+            border: none; 
+            border-radius: 18px; 
+            font-weight: 800; 
+            font-size: 16px; 
+            cursor: pointer; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); 
+            transition: 0.2s; 
+        }
+
+        .light-mode .btn-main {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .btn-main:active { 
+            transform: scale(0.98); 
+            opacity: 0.9; 
+        }
+
+        /* ===== LOADER ===== */
+        .loader { 
+            width: 35px; 
+            height: 35px; 
+            border: 4px solid rgba(255,255,255,0.2); 
+            border-top: 4px solid var(--text-light); 
+            border-radius: 50%; 
+            animation: spin 0.8s linear infinite; 
+            margin: 20px auto; 
+            display: none; 
+        }
+
+        .light-mode .loader {
+            border: 4px solid rgba(0,0,0,0.2);
+            border-top: 4px solid var(--text-dark);
+        }
+
+        @keyframes spin { 
+            100% { 
+                transform: rotate(360deg); 
+            } 
+        }
+
+        /* ===== RESULT AREA ===== */
+        #result-area { 
+            display: none; 
+            animation: popUp 0.5s ease; 
+            width: 100%; 
+        }
+
+        @keyframes popUp { 
+            from { 
+                transform: translateY(20px); 
+                opacity: 0; 
+            } 
+            to { 
+                transform: translateY(0); 
+                opacity: 1; 
+            } 
+        }
+
+        video { 
+            width: 100%; 
+            aspect-ratio: 9/16;
+            max-height: 70vh;
+            border-radius: 18px; 
+            background: rgba(0,0,0,0.2); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            object-fit: contain;
+        }
+
+        .info-meta h3 { 
+            margin: 15px 0 5px 0; 
+            font-size: 17px; 
+            font-weight: 700; 
+            color: var(--text-light);
+        }
+
+        .light-mode .info-meta h3 {
+            color: var(--text-dark);
+        }
+
+        .info-meta small { 
+            color: rgba(255,255,255,0.7); 
+            font-size: 14px; 
+        }
+
+        .light-mode .info-meta small {
+            color: rgba(0,0,0,0.7);
+        }
+
+        .dl-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            margin-top: 20px; 
+        }
+
+        .btn-dl { 
+            padding: 14px; 
+            border-radius: 14px; 
+            text-decoration: none; 
+            font-size: 14px; 
+            font-weight: 700; 
+            text-align: center; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+        }
+
+        .dl-full { 
+            grid-column: span 2; 
+            background: var(--text-light); 
+            color: var(--primary-color); 
+        }
+
+        .light-mode .dl-full {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .dl-sec { 
+            background: rgba(255,255,255,0.15); 
+            color: var(--text-light); 
+            border: 1px solid var(--glass-border); 
+        }
+
+        .light-mode .dl-sec {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Share Buttons */
+        .share-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .share-btn {
+            padding: 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--glass-border);
+            color: var(--text-light);
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .light-mode .share-btn {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--text-dark);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .share-btn:active { 
+            transform: scale(0.95); 
+        }
+
+        /* ===== HISTORY SECTION ===== */
+        .history-section { 
+            width: 100%; 
+            margin-top: 30px; 
+        }
+
+        .h-title { 
+            font-size: 12px; 
+            color: rgba(255,255,255,0.6); 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            margin-bottom: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+        }
+
+        .light-mode .h-title {
+            color: rgba(0,0,0,0.6);
+        }
+
+        .h-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            padding: 14px; 
+            border-radius: 18px; 
+            margin-bottom: 10px; 
+            background: rgba(255,255,255,0.1); 
+            border: 1px solid var(--glass-border); 
+            transition:0.2s; 
+            cursor: pointer;
+        }
+
+        .light-mode .h-item {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .h-item img { 
+            width: 46px; 
+            height: 46px; 
+            border-radius: 12px; 
+            object-fit: cover; 
+            flex-shrink: 0; 
+        }
+
+        .h-text p { 
+            margin: 0; 
+            font-size: 14px; 
+            font-weight: 600; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            max-width: 180px; 
+            color: var(--text-light);
+        }
+
+        .light-mode .h-text p {
+            color: var(--text-dark);
+        }
+
+        .h-text span { 
+            font-size: 12px; 
+            color: rgba(255,255,255,0.6); 
+        }
+
+        .light-mode .h-text span {
+            color: rgba(0,0,0,0.6);
+        }
+
+        /* ===== STATS CARD ===== */
+        .stats-card h3 {
+            margin: 0 0 15px 0;
+            font-size: 16px;
+            color: var(--text-light);
+        }
+
+        .light-mode .stats-card h3 {
+            color: var(--text-dark);
+        }
+
+        .stat-number {
+            font-weight: 800;
+            font-size: 24px;
+            color: var(--text-light);
+        }
+
+        .light-mode .stat-number {
+            color: var(--text-dark);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.7;
+            color: var(--text-light);
+        }
+
+        .light-mode .stat-label {
+            color: var(--text-dark);
+        }
+
+        /* ===== FOOTER ===== */
+        footer { 
+            margin-top: 50px; 
+            text-align: center; 
+            width: 100%; 
+            padding-top: 20px; 
+            border-top: 1px solid var(--glass-border); 
+        }
+
+        .footer-content { 
+            font-size: 12px; 
+            color: rgba(255,255,255,0.5); 
+            line-height: 1.6; 
+        }
+
+        .light-mode .footer-content {
+            color: rgba(0,0,0,0.5);
+        }
+
+        .social-links { 
+            margin-top: 10px; 
+            display: flex; 
+            justify-content: center; 
+            gap: 15px; 
+        }
+
+        .social-btn { 
+            color: rgba(255,255,255,0.7); 
+            font-size: 16px; 
+            transition: 0.3s; 
+        }
+
+        .light-mode .social-btn {
+            color: rgba(0,0,0,0.7);
+        }
+
+        .social-btn:hover { 
+            color: var(--text-light); 
+            transform: scale(1.1); 
+        }
+
+        .light-mode .social-btn:hover {
+            color: var(--text-dark);
+        }
+
+        .disclaimer { 
+            font-size: 10px; 
+            opacity: 0.5; 
+            margin-top: 15px; 
+        }
+
+        /* ===== MODAL & TOAST ===== */
         #funFactModal {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
-            width: 85%; max-width: 350px;
-            background: rgba(15, 23, 42, 0.95); /* Biru Gelap Modern */
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%) scale(0.8);
+            width: 85%; 
+            max-width: 350px;
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px; padding: 30px;
-            text-align: center; z-index: 1000;
-            opacity: 0; pointer-events: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px; 
+            padding: 30px;
+            text-align: center; 
+            z-index: 1000;
+            opacity: 0; 
+            pointer-events: none; 
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
-        #funFactModal.active { opacity: 1; pointer-events: all; transform: translate(-50%, -50%) scale(1); }
-        .fact-icon { font-size: 40px; margin-bottom: 15px; display: block; }
-        .fact-title { color: #38bdf8; font-size: 13px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
-        .fact-text { font-size: 16px; line-height: 1.6; color: white; font-weight: 600; }
-        .timer-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); margin-top: 25px; border-radius: 2px; overflow: hidden; }
-        .timer-progress { height: 100%; background: #38bdf8; width: 0%; transition: width 5s linear; }
 
-        /* --- 5. COMPONENTS --- */
-        .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 24px; padding: 24px; width: 100%; box-sizing: border-box; margin-bottom: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); }
-        .search-box { position: relative; background: rgba(0,0,0,0.2); border-radius: 18px; padding: 6px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; transition: 0.3s; }
-        .search-box:focus-within { border-color: #ffffff; background: rgba(0,0,0,0.3); box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
-        input { flex: 1; border: none; background: transparent; padding: 14px 16px; color: white; font-size: 16px; outline: none; font-family: inherit; font-weight: 500; width: 100%; } /* Width 100% added */
-        input::placeholder { color: rgba(255,255,255,0.5); }
-        .btn-paste { width: 40px; height: 40px; border-radius: 12px; border: none; background: rgba(255,255,255,0.15); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-right: 5px; transition: 0.2s; flex-shrink: 0; } /* flex-shrink:0 agar tombol ga gepeng */
-        .btn-paste:active { background: #ffffff; color: #2b1055; transform: scale(0.9); }
-        .btn-main { width: 100%; padding: 18px; margin-top: 20px; background: #ffffff; color: #2b1055; border: none; border-radius: 18px; font-weight: 800; font-size: 16px; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.2); transition: 0.2s; }
-        .btn-main:active { transform: scale(0.98); opacity: 0.9; }
+        .light-mode #funFactModal {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
 
-        .loader { width: 35px; height: 35px; border: 4px solid rgba(255,255,255,0.2); border-top: 4px solid #fff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 20px auto; display: none; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        #result-area { display: none; animation: popUp 0.5s ease; width: 100%; }
-        @keyframes popUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        video { width: 100%; border-radius: 18px; background: rgba(0,0,0,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .info-meta h3 { margin: 15px 0 5px 0; font-size: 17px; font-weight: 700; }
-        .info-meta small { color: rgba(255,255,255,0.7); font-size: 14px; }
-        .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-        .btn-dl { padding: 14px; border-radius: 14px; text-decoration: none; font-size: 14px; font-weight: 700; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .dl-full { grid-column: span 2; background: #fff; color: #2b1055; }
-        .dl-sec { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.1); }
+        #funFactModal.active { 
+            opacity: 1; 
+            pointer-events: all; 
+            transform: translate(-50%, -50%) scale(1); 
+        }
 
-        .history-section { width: 100%; margin-top: 30px; }
-        .h-title { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: flex; justify-content: space-between; }
-        .h-item { display: flex; align-items: center; gap: 15px; padding: 14px; border-radius: 18px; margin-bottom: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); transition:0.2s; }
-        .h-item img { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; flex-shrink: 0; }
-        .h-text p { margin: 0; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
-        .h-text span { font-size: 12px; color: rgba(255,255,255,0.6); }
+        .fact-icon { 
+            font-size: 40px; 
+            margin-bottom: 15px; 
+            display: block; 
+        }
 
-        footer { margin-top: 50px; text-align: center; width: 100%; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
-        .footer-content { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.6; }
-        .social-links { margin-top: 10px; display: flex; justify-content: center; gap: 15px; }
-        .social-btn { color: rgba(255,255,255,0.7); font-size: 16px; transition: 0.3s; }
-        .social-btn:hover { color: #fff; transform: scale(1.1); }
-        .disclaimer { font-size: 10px; opacity: 0.5; margin-top: 15px; }
+        .fact-title { 
+            color: #38bdf8; 
+            font-size: 13px; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            margin-bottom: 15px; 
+            letter-spacing: 1px; 
+        }
 
-        /* Notifikasi */
-        #toast { visibility: hidden; min-width: 200px; background: white; color: #2b1055; font-weight: 700; text-align: center; border-radius: 50px; padding: 14px; position: fixed; z-index: 99; left: 50%; bottom: 40px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); opacity: 0; transition: 0.3s; }
-        #toast.show { visibility: visible; bottom: 60px; opacity: 1; }
-        #achieveToast { visibility: hidden; min-width: 250px; background: linear-gradient(90deg, #FFD700, #FDB931); color: #5a4a00; font-weight: 800; text-align: center; border-radius: 16px; padding: 16px; position: fixed; z-index: 1001; left: 50%; top: -100px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 10px 50px rgba(255, 215, 0, 0.4); opacity: 0; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 2px solid #FFF8DC; }
-        #achieveToast.show { visibility: visible; top: 30px; opacity: 1; }
+        .fact-text { 
+            font-size: 16px; 
+            line-height: 1.6; 
+            color: var(--text-light); 
+            font-weight: 600; 
+        }
 
-        /* Animasi Efek */
-        .spin-effect { animation: spinLogo 1s ease-in-out; }
-        @keyframes spinLogo { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .bounce-effect { animation: bounceLogo 0.8s infinite; }
-        @keyframes bounceLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+        .light-mode .fact-text {
+            color: var(--text-dark);
+        }
 
+        .timer-bar { 
+            width: 100%; 
+            height: 4px; 
+            background: rgba(255,255,255,0.1); 
+            margin-top: 25px; 
+            border-radius: 2px; 
+            overflow: hidden; 
+        }
+
+        .light-mode .timer-bar {
+            background: rgba(0,0,0,0.1);
+        }
+
+        .timer-progress { 
+            height: 100%; 
+            background: #38bdf8; 
+            width: 0%; 
+            transition: width 5s linear; 
+        }
+
+        /* Toast Notifications */
+        #toast { 
+            visibility: hidden; 
+            min-width: 200px; 
+            background: var(--text-light); 
+            color: var(--primary-color); 
+            font-weight: 700; 
+            text-align: center; 
+            border-radius: 50px; 
+            padding: 14px; 
+            position: fixed; 
+            z-index: 99; 
+            left: 50%; 
+            bottom: 40px; 
+            transform: translateX(-50%); 
+            font-size: 14px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3); 
+            opacity: 0; 
+            transition: 0.3s; 
+        }
+
+        .light-mode #toast {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        #toast.show { 
+            visibility: visible; 
+            bottom: 60px; 
+            opacity: 1; 
+        }
+
+        #achieveToast { 
+            visibility: hidden; 
+            min-width: 250px; 
+            background: linear-gradient(90deg, #FFD700, #FDB931); 
+            color: #5a4a00; 
+            font-weight: 800; 
+            text-align: center; 
+            border-radius: 16px; 
+            padding: 16px; 
+            position: fixed; 
+            z-index: 1001; 
+            left: 50%; 
+            top: -100px; 
+            transform: translateX(-50%); 
+            font-size: 14px; 
+            box-shadow: 0 10px 50px rgba(255, 215, 0, 0.4); 
+            opacity: 0; 
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            border: 2px solid #FFF8DC; 
+        }
+
+        #achieveToast.show { 
+            visibility: visible; 
+            top: 30px; 
+            opacity: 1; 
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .spin-effect { 
+            animation: spinLogo 1s ease-in-out; 
+        }
+        
+        @keyframes spinLogo { 
+            0% { 
+                transform: rotate(0deg); 
+            } 
+            100% { 
+                transform: rotate(360deg); 
+            } 
+        }
+        
+        .bounce-effect { 
+            animation: bounceLogo 0.8s infinite; 
+        }
+        
+        @keyframes bounceLogo { 
+            0%, 100% { 
+                transform: translateY(0); 
+            } 
+            50% { 
+                transform: translateY(-30px); 
+            } 
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .app-container {
+                padding: 30px 16px 80px 16px;
+            }
+            .logo-glass {
+                width: 80px;
+                height: 80px;
+            }
+            .tiktok-icon-glow { 
+                font-size: 40px; 
+            }
+            h1.logo-text { 
+                font-size: 24px; 
+            }
+            .btn-dl {
+                font-size: 13px;
+                padding: 12px 8px;
+            }
+            .share-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .app-container {
+                padding: 20px 12px 60px 12px;
+            }
+            .glass-card {
+                padding: 18px;
+            }
+            .dl-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            .dl-full {
+                grid-column: span 1;
+            }
+        }
+
+        /* ===== INSTALL BUTTON ===== */
+        #installBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent-pink);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="app-container" id="appWrapper">
         <div class="main-content" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
             <header>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                
                 <div class="logo-glass" id="mainLogo" onclick="clickLogo()">
                     <i class="fab fa-tiktok tiktok-icon-glow"></i>
                     <div id="clickBadge" class="click-badge">0</div>
@@ -213,6 +921,15 @@
                         <i class="fas fa-paste"></i>
                     </button>
                 </div>
+
+                <div class="batch-section">
+                    <input type="checkbox" id="batchMode">
+                    <label for="batchMode" style="color: rgba(255,255,255,0.8); font-size: 14px; margin-left: 8px;">
+                        Mode Batch (Multiple Links)
+                    </label>
+                    <textarea id="batchInput" placeholder="Tempel multiple links (satu per baris)"></textarea>
+                </div>
+
                 <button class="btn-main" onclick="downloadVideo()">
                     Download Video ⚡
                 </button>
@@ -227,18 +944,73 @@
                     <small id="vidAuthor">@author</small>
                 </div>
                 <div class="dl-grid">
-                    <a id="btnStandard" href="#" target="_blank" class="btn-dl dl-full"><i class="fas fa-arrow-down"></i> Simpan MP4</a>
-                    <a id="btnHD" href="#" target="_blank" class="btn-dl dl-sec" style="display:none;"><i class="fas fa-bolt"></i> HD</a>
-                    <a id="btnAudio" href="#" target="_blank" class="btn-dl dl-sec"><i class="fas fa-music"></i> MP3</a>
+                    <a id="btnStandard" href="#" target="_blank" class="btn-dl dl-full">
+                        <i class="fas fa-arrow-down"></i> Simpan MP4
+                    </a>
+                    <a id="btnHD" href="#" target="_blank" class="btn-dl dl-sec" style="display:none;">
+                        <i class="fas fa-bolt"></i> HD
+                    </a>
+                    <a id="btnAudio" href="#" target="_blank" class="btn-dl dl-sec">
+                        <i class="fas fa-music"></i> MP3
+                    </a>
+                </div>
+
+                <div class="share-grid">
+                    <button class="share-btn" onclick="shareToWhatsApp()">
+                        <i class="fab fa-whatsapp"></i>
+                    </button>
+                    <button class="share-btn" onclick="shareToTelegram()">
+                        <i class="fab fa-telegram"></i>
+                    </button>
+                    <button class="share-btn" onclick="shareToTwitter()">
+                        <i class="fab fa-twitter"></i>
+                    </button>
+                    <button class="share-btn" onclick="copyVideoLink()">
+                        <i class="fas fa-link"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="stats-card glass-card">
+                <h3>📊 Statistik</h3>
+                <div style="display: flex; justify-content: space-between; font-size: 14px;">
+                    <div>
+                        <div class="stat-label">Total Download</div>
+                        <div class="stat-number" id="totalDownloads">0</div>
+                    </div>
+                    <div>
+                        <div class="stat-label">Klik Logo</div>
+                        <div class="stat-number" id="totalClicks">0</div>
+                    </div>
                 </div>
             </div>
 
             <div class="history-section">
                 <div class="h-title">
                     <span>Riwayat Terakhir</span>
-                    <span onclick="clearHistory()" style="color:#fff; opacity:0.8; cursor:pointer;">HAPUS</span>
+                    <span onclick="clearHistory()" style="cursor:pointer; opacity:0.8;">HAPUS</span>
                 </div>
                 <div id="historyList"></div>
+            </div>
+
+            <!-- Informasi Tambahan -->
+            <div class="glass-card" style="margin-top: 20px;">
+                <h3 style="color: var(--text-light); margin-bottom: 15px; font-size: 18px;">
+                    <i class="fas fa-info-circle"></i> Cara Download
+                </h3>
+                <ol style="padding-left: 20px; color: rgba(255,255,255,0.8); line-height: 1.6;">
+                    <li>Buka TikTok dan pilih video</li>
+                    <li>Klik <b>Share</b> → <b>Copy Link</b></li>
+                    <li>Tempel link di atas</li>
+                    <li>Klik Download dan pilih format</li>
+                </ol>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--glass-border);">
+                    <p style="color: rgba(255,255,255,0.7); font-size: 12px;">
+                        <i class="fas fa-shield-alt"></i> 100% Aman & Gratis<br>
+                        <i class="fas fa-bolt"></i> Tanpa Watermark<br>
+                        <i class="fas fa-hd"></i> Kualitas HD
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -259,6 +1031,7 @@
         </footer>
     </div>
 
+    <!-- Modals & Toasts -->
     <div id="funFactModal">
         <span class="fact-icon">✨</span>
         <div class="fact-title">FAKTA ALAM UNIK</div>
@@ -268,41 +1041,126 @@
 
     <div id="toast">Notifikasi</div>
     <div id="achieveToast"><i class="fas fa-trophy"></i> ACHIEVEMENT UNLOCKED!</div>
+    <button id="installBtn">📲 Install App</button>
 
     <script>
+        // ===== INITIALIZATION =====
         document.getElementById("year").innerText = new Date().getFullYear();
-        if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
-        function vibrate() { if(navigator.vibrate) navigator.vibrate(15); }
-        function showToast(msg) { const t=document.getElementById("toast"); t.innerText=msg; t.className="show"; setTimeout(()=>t.className=t.className.replace("show",""),2500); }
+        
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('SW registered:', reg))
+                    .catch(err => console.log('SW registration failed:', err));
+            });
+        }
 
-        // --- SISTEM GAME & EASTER EGG ---
+        // ===== VARIABLES =====
         let clickCount = parseInt(localStorage.getItem('ttClickCount')) || 0;
         let currentFactIndex = parseInt(localStorage.getItem('ttFactIndex')) || 0;
+        let totalDownloads = parseInt(localStorage.getItem('ttDownloads')) || 0;
+        let deferredPrompt;
         
         const logo = document.getElementById('mainLogo');
         const badge = document.getElementById('clickBadge');
+        const themeToggle = document.getElementById('themeToggle');
+        const batchCheckbox = document.getElementById('batchMode');
+        const batchInput = document.getElementById('batchInput');
 
-        if(clickCount > 0) {
-            badge.innerText = clickCount;
-            badge.classList.add('visible');
-            checkSkinReward();
+        // ===== INITIAL SETUP =====
+        function init() {
+            // Setup click badge
+            if (clickCount > 0) {
+                badge.innerText = clickCount;
+                badge.classList.add('visible');
+                checkSkinReward();
+            }
+            
+            // Setup theme
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+            if (currentTheme === 'light') {
+                document.body.classList.add('light-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            // Setup batch mode
+            batchCheckbox.addEventListener('change', function() {
+                batchInput.style.display = this.checked ? 'block' : 'none';
+                document.getElementById('tiktokUrl').style.display = this.checked ? 'none' : 'block';
+            });
+            
+            // Setup PWA install prompt
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                document.getElementById('installBtn').style.display = 'block';
+            });
+            
+            // Check online status
+            updateOnlineStatus();
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            
+            // Load stats
+            updateStats();
+            renderHistory();
+            
+            // Auto-detect embed code
+            setupInputDetection();
         }
 
-        // --- DATA FAKTA ALAM UNIK (LENGKAP) ---
+        // ===== UTILITY FUNCTIONS =====
+        function vibrate() {
+            if (navigator.vibrate) navigator.vibrate(15);
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.className = "show";
+            setTimeout(() => t.className = t.className.replace("show", ""), 2500);
+            logEvent('toast', { message: msg });
+        }
+
+        function updateOnlineStatus() {
+            if (!navigator.onLine) {
+                showToast("⚠️ Anda sedang offline");
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalDownloads').textContent = totalDownloads;
+            document.getElementById('totalClicks').textContent = clickCount;
+        }
+
+        function logEvent(eventName, data = {}) {
+            const events = JSON.parse(localStorage.getItem('tt_analytics') || '[]');
+            events.push({
+                event: eventName,
+                data: data,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent
+            });
+            localStorage.setItem('tt_analytics', JSON.stringify(events.slice(-100)));
+        }
+
+        // ===== THEME TOGGLE =====
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const isLight = document.body.classList.contains('light-mode');
+            themeToggle.innerHTML = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            logEvent('theme_toggle', { theme: isLight ? 'light' : 'dark' });
+        });
+
+        // ===== EASTER EGG SYSTEM =====
         const natureFacts = [
-            "<b>Pisang itu beri, tapi stroberi bukan. 🍌</b><br><br><span style='font-size:13px; opacity:0.8'>Secara botani, pisang masuk kategori buah beri, sedangkan stroberi adalah 'buah agregat'.</span>",
-            "<b>Ada lebih banyak pohon di Bumi daripada bintang di Galaksi. 🌌</b><br><br><span style='font-size:13px; opacity:0.8'>Estimasi pohon: 3 triliun. Estimasi bintang: 400 miliar. Mengubah perspektif skala!</span>",
-            "<b>Satu hari di Venus lebih lama daripada satu tahun di Venus. 🪐</b><br><br><span style='font-size:13px; opacity:0.8'>Venus berputar pada porosnya sangat lambat, tapi mengelilingi matahari lebih cepat.</span>",
-            "<b>Hiu Greenland bisa hidup sampai 400 tahun. 🦈</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka baru mencapai kematangan seksual di usia 150 tahun. Masa remaja 1,5 abad!</span>",
-            "<b>Awan 'fluffy' itu beratnya bisa 500.000 kg. ☁️</b><br><br><span style='font-size:13px; opacity:0.8'>Setara dengan berat 100 gajah, tapi tetap melayang.</span>",
-            "<b>Kotoran Wombat bentuknya kubus. 💩</b><br><br><span style='font-size:13px; opacity:0.8'>Ini supaya kotorannya tidak menggelinding jatuh saat dipakai menandai wilayah di atas batu.</span>",
-            "<b>Sigung bisa handstand sebelum menyemprot. 🦨</b><br><br><span style='font-size:13px; opacity:0.8'>Ini adalah tarian peringatan agar musuh mundur sebelum diserang.</span>",
-            "<b>Kupu-kupu mencicipi rasa dengan kakinya. 🦋</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka mendarat di daun untuk tahu apakah itu makanan yang cocok untuk ulatnya nanti.</span>",
-            "<b>Mata burung unta lebih besar dari otaknya. 🐦</b><br><br><span style='font-size:13px; opacity:0.8'>Definisi 'mata keranjang' secara harfiah, mungkin?</span>",
-            "<b>Dulu, penguin setinggi manusia pernah hidup. 🐧</b><br><br><span style='font-size:13px; opacity:0.8'>Namanya Anthropornis nordenskjoeldi, tingginya sekitar 1,8 meter. Seram atau lucu?</span>",
-            "<b>Berang-berang laut pegangan tangan saat tidur. 🦦</b><br><br><span style='font-size:13px; opacity:0.8'>Supaya mereka tidak hanyut terpisah oleh arus laut. Romantis, kan?</span>",
-            "<b>Sapi punya sahabat karib (Bestie). 🐮</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka akan stres berat jika dipisahkan dari sahabat sapi tertentunya.</span>",
-            "<b>Tupai menanam pohon karena lupa. 🐿️</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka mengubur biji dan lupa lokasinya, yang akhirnya tumbuh menjadi hutan baru.</span>"
+            "<b>Pisang itu beri, tapi stroberi bukan. 🍌</b><br><span style='font-size:13px; opacity:0.8'>Secara botani, pisang masuk kategori buah beri, sedangkan stroberi adalah 'buah agregat'.</span>",
+            "<b>Ada lebih banyak pohon di Bumi daripada bintang di Galaksi. 🌌</b><br><span style='font-size:13px; opacity:0.8'>Estimasi pohon: 3 triliun. Estimasi bintang: 400 miliar.</span>",
+            "<b>Satu hari di Venus lebih lama daripada satu tahun di Venus. 🪐</b><br><span style='font-size:13px; opacity:0.8'>Venus berputar lambat, tapi mengelilingi matahari lebih cepat.</span>",
+            "<b>Hiu Greenland bisa hidup sampai 400 tahun. 🦈</b><br><span style='font-size:13px; opacity:0.8'>Mereka baru dewasa di usia 150 tahun.</span>",
+            "<b>Awan 'fluffy' beratnya bisa 500.000 kg. ☁️</b><br><span style='font-size:13px; opacity:0.8'>Setara dengan 100 gajah, tapi tetap melayang.</span>"
         ];
 
         function clickLogo() {
@@ -311,49 +1169,23 @@
             badge.innerText = clickCount;
             badge.classList.add('visible');
             
+            vibrate();
+            runLogoEffects();
             checkAchievements();
-            runVisualEffects();
+            logEvent('logo_click', { count: clickCount });
         }
 
-        function checkAchievements() {
-            if (clickCount === 10) showAchievement("Achievement: Curious Mind! (10 Klik)");
-            else if (clickCount === 20) {
-                showAchievement("✨ GOLDEN SKIN UNLOCKED! ✨");
-                logo.classList.add('gold-skin');
-                confetti({ particleCount: 200, spread: 100, colors: ['#FFD700', '#FFFFFF'] });
-            }
-        }
-
-        function checkSkinReward() {
-            if (clickCount >= 20) logo.classList.add('gold-skin');
-        }
-
-        function showAchievement(msg) {
-            const t = document.getElementById("achieveToast");
-            t.innerHTML = `<i class="fas fa-trophy"></i> ${msg}`;
-            t.className = "show";
-            if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
-            setTimeout(() => t.className = t.className.replace("show", ""), 4000);
-        }
-
-        function runVisualEffects() {
-            if(navigator.vibrate) navigator.vibrate(50);
-            
+        function runLogoEffects() {
             logo.classList.remove('spin-effect', 'bounce-effect');
-            void logo.offsetWidth; 
+            void logo.offsetWidth;
 
-            // LOGIKA PASTI:
-            // Genap (2, 4, 6...) -> FAKTA
-            // Ganjil (1, 3, 5...) -> EFEK VISUAL
-            
             if (clickCount % 2 === 0) {
                 showFunFact();
             } else {
-                // Acak antara Party atau Bounce untuk efek visual
                 const luck = Math.random();
                 if (luck > 0.5) {
                     logo.classList.add('spin-effect');
-                    confetti({ particleCount: 100, spread: 60, origin: { y: 0.3 }, colors: ['#25F4EE', '#FE2C55'] });
+                    confetti({ particleCount: 100, spread: 60, colors: ['#25F4EE', '#FE2C55'] });
                 } else {
                     logo.classList.add('bounce-effect');
                     setTimeout(() => logo.classList.remove('bounce-effect'), 2000);
@@ -366,21 +1198,15 @@
             const content = document.getElementById('factContent');
             const timer = document.getElementById('factTimer');
             
-            // AMBIL FAKTA SECARA URUT
             const fact = natureFacts[currentFactIndex];
-            content.innerHTML = fact; 
+            content.innerHTML = fact;
             
-            // Update Index
-            currentFactIndex++;
-            if (currentFactIndex >= natureFacts.length) {
-                currentFactIndex = 0; // Reset jika habis
-            }
+            currentFactIndex = (currentFactIndex + 1) % natureFacts.length;
             localStorage.setItem('ttFactIndex', currentFactIndex);
             
             modal.classList.add('active');
-            
             timer.style.width = '0%';
-            setTimeout(() => timer.style.width = '100%', 100); 
+            setTimeout(() => timer.style.width = '100%', 100);
 
             setTimeout(() => {
                 modal.classList.remove('active');
@@ -388,13 +1214,275 @@
             }, 5500);
         }
 
-        async function pasteFromClipboard() { vibrate(); try { const text=await navigator.clipboard.readText(); document.getElementById('tiktokUrl').value=text; showToast("Link Berhasil Ditempel ✨"); } catch(e) { showToast("Gagal Tempel 😅"); } }
-        async function downloadVideo() { vibrate(); const url=document.getElementById('tiktokUrl').value; const loader=document.getElementById('loader'); const resArea=document.getElementById('result-area'); if(!url) { showToast("Link masih kosong 👀"); return; } resArea.style.display='none'; loader.style.display='block'; try { const response=await fetch('/download', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:url})}); const data=await response.json(); loader.style.display='none'; if(data.success) { document.getElementById('videoPreview').src=data.video_url; document.getElementById('vidTitle').innerText=data.title; document.getElementById('vidAuthor').innerText='@'+data.author; document.getElementById('btnStandard').href=data.video_url; document.getElementById('btnAudio').href=data.music_url; const btnHD=document.getElementById('btnHD'); if(data.hd_url && data.hd_url!==data.video_url) { btnHD.href=data.hd_url; btnHD.style.display='flex'; } else { btnHD.style.display='none'; } resArea.style.display='block'; addToHistory(data.title, data.cover, url, data.author); showToast("Video Siap! 🔥"); } else { showToast(data.error); } } catch(err) { loader.style.display='none'; showToast("Server Error 😭"); } }
-        function addToHistory(t,c,u,a) { let h=JSON.parse(localStorage.getItem('ttPurpleBlue'))||[]; h.unshift({t,c,u,a}); if(h.length>5)h.pop(); localStorage.setItem('ttPurpleBlue',JSON.stringify(h)); renderHistory(); }
-        function renderHistory() { const list=document.getElementById('historyList'); const h=JSON.parse(localStorage.getItem('ttPurpleBlue'))||[]; list.innerHTML=''; if(h.length===0) { list.innerHTML='<p style="text-align:center;color:rgba(255,255,255,0.4);font-size:12px;">Belum ada riwayat.</p>'; return; } h.forEach(i => { list.innerHTML+=`<div class="h-item" onclick="fillInput('${i.u}')"><img src="${i.c}"><div class="h-text"><p>${i.t}</p><span>@${i.a}</span></div><i class="fas fa-play" style="margin-left:auto;color:rgba(255,255,255,0.5);font-size:10px;"></i></div>`; }); }
-        function fillInput(u) { vibrate(); document.getElementById('tiktokUrl').value=u; downloadVideo(); }
-        function clearHistory() { vibrate(); localStorage.removeItem('ttPurpleBlue'); renderHistory(); showToast("Riwayat Bersih 🧹"); }
-        renderHistory();
+        function checkAchievements() {
+            if (clickCount === 10) {
+                showAchievement("Curious Mind! (10 Klik)");
+            } else if (clickCount === 20) {
+                showAchievement("✨ GOLDEN SKIN UNLOCKED! ✨");
+                logo.classList.add('gold-skin');
+                confetti({ particleCount: 200, spread: 100, colors: ['#FFD700', '#FFFFFF'] });
+                localStorage.setItem('ttGoldenSkin', 'true');
+            } else if (clickCount === 30) {
+                showAchievement("Legendary Clicker! (30 Klik)");
+            }
+        }
+
+        function checkSkinReward() {
+            if (localStorage.getItem('ttGoldenSkin') === 'true') {
+                logo.classList.add('gold-skin');
+            }
+        }
+
+        function showAchievement(msg) {
+            const t = document.getElementById("achieveToast");
+            t.innerHTML = `<i class="fas fa-trophy"></i> ${msg}`;
+            t.className = "show";
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            setTimeout(() => t.className = t.className.replace("show", ""), 4000);
+            logEvent('achievement', { message: msg, clickCount: clickCount });
+        }
+
+        // ===== INPUT DETECTION =====
+        function setupInputDetection() {
+            const input = document.getElementById('tiktokUrl');
+            input.addEventListener('paste', function(e) {
+                setTimeout(() => {
+                    const text = this.value;
+                    if (detectEmbedCode(text)) {
+                        const videoId = extractVideoIdFromEmbed(text);
+                        if (videoId) {
+                            this.value = `https://www.tiktok.com/@tiktok/video/${videoId}`;
+                            showToast("✅ Embed code terdeteksi!");
+                        }
+                    }
+                }, 100);
+            });
+        }
+
+        function detectEmbedCode(text) {
+            return text.includes('<blockquote class="tiktok-embed"');
+        }
+
+        function extractVideoIdFromEmbed(embedCode) {
+            const match = embedCode.match(/data-video-id="([^"]+)"/);
+            return match ? match[1] : null;
+        }
+
+        // ===== DOWNLOAD FUNCTIONS =====
+        async function pasteFromClipboard() {
+            vibrate();
+            try {
+                const text = await navigator.clipboard.readText();
+                if (batchCheckbox.checked) {
+                    batchInput.value = text;
+                } else {
+                    document.getElementById('tiktokUrl').value = text;
+                }
+                showToast("Link Berhasil Ditempel ✨");
+                logEvent('paste_clipboard');
+            } catch (e) {
+                showToast("Gagal Tempel 😅");
+            }
+        }
+
+        async function downloadVideo() {
+            vibrate();
+            const urlInput = document.getElementById('tiktokUrl');
+            const loader = document.getElementById('loader');
+            const resArea = document.getElementById('result-area');
+            
+            let url = batchCheckbox.checked ? batchInput.value.split('\n')[0].trim() : urlInput.value.trim();
+            
+            if (!url) {
+                showToast("Link masih kosong 👀");
+                return;
+            }
+            
+            resArea.style.display = 'none';
+            loader.style.display = 'block';
+            
+            try {
+                // Simulasi API call - ganti dengan API mu
+                const response = await fetch('/download', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
+                });
+                
+                const data = await response.json();
+                loader.style.display = 'none';
+                
+                if (data.success) {
+                    displayVideoResult(data);
+                    totalDownloads++;
+                    localStorage.setItem('ttDownloads', totalDownloads);
+                    updateStats();
+                    logEvent('download_success', { url: url });
+                } else {
+                    showToast(data.error || "Download gagal");
+                    logEvent('download_failed', { url: url, error: data.error });
+                }
+            } catch (err) {
+                loader.style.display = 'none';
+                showToast("Server Error 😭");
+                console.error(err);
+                logEvent('server_error', { error: err.message });
+            }
+        }
+
+        function displayVideoResult(data) {
+            document.getElementById('videoPreview').src = data.video_url;
+            document.getElementById('vidTitle').innerText = data.title || 'Video TikTok';
+            document.getElementById('vidAuthor').innerText = '@' + (data.author || 'unknown');
+            
+            const btnStandard = document.getElementById('btnStandard');
+            const btnHD = document.getElementById('btnHD');
+            const btnAudio = document.getElementById('btnAudio');
+            
+            btnStandard.href = data.video_url;
+            btnAudio.href = data.music_url;
+            
+            if (data.hd_url && data.hd_url !== data.video_url) {
+                btnHD.href = data.hd_url;
+                btnHD.style.display = 'flex';
+            } else {
+                btnHD.style.display = 'none';
+            }
+            
+            document.getElementById('result-area').style.display = 'block';
+            addToHistory(data.title, data.cover, data.url || document.getElementById('tiktokUrl').value, data.author);
+            showToast("Video Siap! 🔥");
+        }
+
+        // ===== SHARE FUNCTIONS =====
+        function shareToWhatsApp() {
+            const videoUrl = document.getElementById('btnStandard').href;
+            const text = `Download video TikTok ini: ${videoUrl}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+            logEvent('share_whatsapp');
+        }
+
+        function shareToTelegram() {
+            const videoUrl = document.getElementById('btnStandard').href;
+            const text = `Download video TikTok ini: ${videoUrl}`;
+            window.open(`https://t.me/share/url?url=${encodeURIComponent(videoUrl)}&text=${encodeURIComponent('Download TikTok Video')}`, '_blank');
+            logEvent('share_telegram');
+        }
+
+        function shareToTwitter() {
+            const videoUrl = document.getElementById('btnStandard').href;
+            const text = `Download video TikTok ini`;
+            window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(videoUrl)}&text=${encodeURIComponent(text)}`, '_blank');
+            logEvent('share_twitter');
+        }
+
+        async function copyVideoLink() {
+            const videoUrl = document.getElementById('btnStandard').href;
+            try {
+                await navigator.clipboard.writeText(videoUrl);
+                showToast("Link disalin! 📋");
+                logEvent('copy_link');
+            } catch (err) {
+                showToast("Gagal menyalin");
+            }
+        }
+
+        // ===== HISTORY SYSTEM =====
+        function addToHistory(title, cover, url, author) {
+            let history = JSON.parse(localStorage.getItem('ttPurpleBlue')) || [];
+            history.unshift({
+                t: title || 'Video TikTok',
+                c: cover || 'https://via.placeholder.com/150',
+                u: url,
+                a: author || 'unknown'
+            });
+            
+            if (history.length > 5) history.pop();
+            localStorage.setItem('ttPurpleBlue', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            const history = JSON.parse(localStorage.getItem('ttPurpleBlue')) || [];
+            
+            list.innerHTML = '';
+            
+            if (history.length === 0) {
+                list.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.4);">Belum ada riwayat.</p>';
+                return;
+            }
+            
+            history.forEach(item => {
+                list.innerHTML += `
+                    <div class="h-item" onclick="fillInput('${item.u.replace(/'/g, "\\'")}')">
+                        <img src="${item.c}" alt="Thumbnail">
+                        <div class="h-text">
+                            <p>${item.t}</p>
+                            <span>@${item.a}</span>
+                        </div>
+                        <i class="fas fa-play" style="margin-left:auto;color:rgba(255,255,255,0.5);"></i>
+                    </div>
+                `;
+            });
+        }
+
+        function fillInput(url) {
+            vibrate();
+            if (batchCheckbox.checked) {
+                batchInput.value = url;
+            } else {
+                document.getElementById('tiktokUrl').value = url;
+            }
+            downloadVideo();
+            logEvent('history_click', { url: url });
+        }
+
+        function clearHistory() {
+            vibrate();
+            if (confirm("Hapus semua riwayat?")) {
+                localStorage.removeItem('ttPurpleBlue');
+                renderHistory();
+                showToast("Riwayat bersih 🧹");
+                logEvent('clear_history');
+            }
+        }
+
+        // ===== PWA INSTALL =====
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                showToast("Aplikasi berhasil diinstall! 🎉");
+                logEvent('pwa_install', { outcome: 'accepted' });
+            }
+            
+            deferredPrompt = null;
+            document.getElementById('installBtn').style.display = 'none';
+        });
+
+        // ===== TOUCH GESTURES =====
+        let touchStartY = 0;
+        document.addEventListener('touchstart', e => {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        document.addEventListener('touchend', e => {
+            const touchEndY = e.changedTouches[0].clientY;
+            const diff = touchStartY - touchEndY;
+            
+            if (touchStartY < 100 && diff > 50) {
+                renderHistory();
+                showToast("Riwayat direfresh 🔄");
+                logEvent('swipe_refresh');
+            }
+        });
+
+        // ===== INITIALIZE =====
+        init();
     </script>
 </body>
 </html>
