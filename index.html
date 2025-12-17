@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 1. BACKGROUND BLUE-PURPLE VIBRANT (TETAP SAMA) --- */
+        /* --- 1. BACKGROUND --- */
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0; padding: 0; color: white;
@@ -34,7 +34,16 @@
         /* --- 2. CONTAINER --- */
         .app-container {
             width: 100%; max-width: 460px;
-            padding: 40px 24px 100px 24px;
+            /* Padding bawah ditambah biar footer muat */
+            padding: 40px 24px 40px 24px;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Konten Utama supaya footer terdorong ke bawah */
+        .main-content {
+            width: 100%;
+            flex: 1; /* Ini membuat konten mengisi ruang kosong */
             display: flex; flex-direction: column; align-items: center;
         }
 
@@ -52,8 +61,7 @@
         }
         
         .tiktok-icon-glow {
-            font-size: 44px;
-            color: #ffffff;
+            font-size: 44px; color: #ffffff;
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
         }
 
@@ -63,7 +71,7 @@
         }
         p.subtitle { color: rgba(255,255,255,0.7); font-size: 15px; margin-top: 6px; font-weight: 500; }
 
-        /* --- 3. KARTU KACA (GLASS) --- */
+        /* --- 3. COMPONENTS --- */
         .glass-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
@@ -73,20 +81,18 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
-        /* --- 4. INPUT & TOMBOL (YANG DIUBAH DI SINI) --- */
         .search-box {
             position: relative; background: rgba(0,0,0,0.2);
             border-radius: 18px; padding: 6px;
-            /* Border default tipis transparan */
-            border: 1px solid rgba(255,255,255,0.1); 
+            border: 1px solid rgba(255,255,255,0.1);
             display: flex; align-items: center; transition: 0.3s;
         }
         
-        /* SAAT DIKLIK: JADI PUTIH BERSIH */
+        /* BORDER PUTIH SAAT DIKLIK */
         .search-box:focus-within { 
-            border-color: #ffffff; /* <-- UBAH JADI PUTIH */
+            border-color: #ffffff;
             background: rgba(0,0,0,0.3);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* Glow Putih */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
         
         input {
@@ -105,8 +111,7 @@
 
         .btn-main {
             width: 100%; padding: 18px; margin-top: 20px;
-            background: #ffffff;
-            color: #2b1055;
+            background: #ffffff; color: #2b1055;
             border: none; border-radius: 18px;
             font-weight: 800; font-size: 16px;
             cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.2);
@@ -114,31 +119,20 @@
         }
         .btn-main:active { transform: scale(0.98); opacity: 0.9; }
 
-        /* --- 5. RESULT & OTHERS --- */
-        .loader {
-            width: 35px; height: 35px; border: 4px solid rgba(255,255,255,0.2);
-            border-top: 4px solid #fff; border-radius: 50%;
-            animation: spin 0.8s linear infinite; margin: 20px auto; display: none;
-        }
+        .loader { width: 35px; height: 35px; border: 4px solid rgba(255,255,255,0.2); border-top: 4px solid #fff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
         
         #result-area { display: none; animation: popUp 0.5s ease; }
         @keyframes popUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
         video { width: 100%; border-radius: 18px; background: rgba(0,0,0,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        
         .info-meta h3 { margin: 15px 0 5px 0; font-size: 17px; font-weight: 700; }
         .info-meta small { color: rgba(255,255,255,0.7); font-size: 14px; }
-        
         .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-        .btn-dl {
-            padding: 14px; border-radius: 14px; text-decoration: none; font-size: 14px; font-weight: 700;
-            text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
+        .btn-dl { padding: 14px; border-radius: 14px; text-decoration: none; font-size: 14px; font-weight: 700; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .dl-full { grid-column: span 2; background: #fff; color: #2b1055; }
         .dl-sec { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.1); }
 
-        /* History & Toast */
         .history-section { width: 100%; margin-top: 30px; }
         .h-title { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: flex; justify-content: space-between; }
         .h-item { display: flex; align-items: center; gap: 15px; padding: 14px; border-radius: 18px; margin-bottom: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); transition:0.2s; }
@@ -149,52 +143,107 @@
         
         #toast { visibility: hidden; min-width: 200px; background: white; color: #2b1055; font-weight: 700; text-align: center; border-radius: 50px; padding: 14px; position: fixed; z-index: 99; left: 50%; bottom: 40px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); opacity: 0; transition: 0.3s; }
         #toast.show { visibility: visible; bottom: 60px; opacity: 1; }
+
+        /* --- 4. FOOTER STYLES --- */
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            width: 100%;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-content {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.6;
+        }
+
+        .footer-content p { margin: 5px 0; }
+        
+        .social-links {
+            margin-top: 10px;
+            display: flex; justify-content: center; gap: 15px;
+        }
+        
+        .social-btn {
+            color: rgba(255,255,255,0.7);
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .social-btn:hover { color: #fff; transform: scale(1.1); }
+        
+        .disclaimer { font-size: 10px; opacity: 0.5; margin-top: 15px; }
+
     </style>
 </head>
 <body>
     <div class="app-container">
-        <header>
-            <div class="logo-glass">
-                <i class="fab fa-tiktok tiktok-icon-glow"></i>
-            </div>
-            <h1 class="logo-text">TikTok Downloader</h1>
-            <p class="subtitle">Simpan Video HD Favoritmu</p>
-        </header>
+        <div class="main-content">
+            <header>
+                <div class="logo-glass">
+                    <i class="fab fa-tiktok tiktok-icon-glow"></i>
+                </div>
+                <h1 class="logo-text">TikTok Downloader</h1>
+                <p class="subtitle">Simpan Video HD Favoritmu</p>
+            </header>
 
-        <div class="glass-card">
-            <div class="search-box">
-                <input type="text" id="tiktokUrl" inputmode="url" placeholder="Tempel Link TikTok..." autocomplete="off">
-                <button class="btn-paste" onclick="pasteFromClipboard()">
-                    <i class="fas fa-paste"></i>
+            <div class="glass-card">
+                <div class="search-box">
+                    <input type="text" id="tiktokUrl" inputmode="url" placeholder="Tempel Link TikTok..." autocomplete="off">
+                    <button class="btn-paste" onclick="pasteFromClipboard()">
+                        <i class="fas fa-paste"></i>
+                    </button>
+                </div>
+                <button class="btn-main" onclick="downloadVideo()">
+                    Download Video ⚡
                 </button>
             </div>
-            <button class="btn-main" onclick="downloadVideo()">
-                Download Video ⚡
-            </button>
+
+            <div class="loader" id="loader"></div>
+
+            <div id="result-area" class="glass-card" style="padding: 24px;">
+                <video id="videoPreview" controls playsinline></video>
+                <div class="info-meta">
+                    <h3 id="vidTitle">Judul Video</h3>
+                    <small id="vidAuthor">@author</small>
+                </div>
+                <div class="dl-grid">
+                    <a id="btnStandard" href="#" target="_blank" class="btn-dl dl-full"><i class="fas fa-arrow-down"></i> Simpan MP4</a>
+                    <a id="btnHD" href="#" target="_blank" class="btn-dl dl-sec" style="display:none;"><i class="fas fa-bolt"></i> HD</a>
+                    <a id="btnAudio" href="#" target="_blank" class="btn-dl dl-sec"><i class="fas fa-music"></i> MP3</a>
+                </div>
+            </div>
+
+            <div class="history-section">
+                <div class="h-title">
+                    <span>Riwayat Terakhir</span>
+                    <span onclick="clearHistory()" style="color:#fff; opacity:0.8; cursor:pointer;">HAPUS</span>
+                </div>
+                <div id="historyList"></div>
+            </div>
         </div>
 
-        <div class="loader" id="loader"></div>
+        <footer>
+            <div class="footer-content">
+                <p>&copy; <span id="year"></span> TikTok Downloader. All rights reserved.</p>
+                
+    <script>
+        document.getElementById("year").innerText = new Date().getFullYear();
+    </script>
+                
+                <div class="social-links">
+                    <a href="#" class="social-btn"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn"><i class="fas fa-envelope"></i></a>
+                </div>
 
-        <div id="result-area" class="glass-card" style="padding: 24px;">
-            <video id="videoPreview" controls playsinline></video>
-            <div class="info-meta">
-                <h3 id="vidTitle">Judul Video</h3>
-                <small id="vidAuthor">@author</small>
+                <p class="disclaimer">
+                    Disclaimer: This tool is not affiliated with TikTok or ByteDance.<br>
+                    Use for personal educational purposes only.
+                </p>
             </div>
-            <div class="dl-grid">
-                <a id="btnStandard" href="#" target="_blank" class="btn-dl dl-full"><i class="fas fa-arrow-down"></i> Simpan MP4</a>
-                <a id="btnHD" href="#" target="_blank" class="btn-dl dl-sec" style="display:none;"><i class="fas fa-bolt"></i> HD</a>
-                <a id="btnAudio" href="#" target="_blank" class="btn-dl dl-sec"><i class="fas fa-music"></i> MP3</a>
-            </div>
-        </div>
-
-        <div class="history-section">
-            <div class="h-title">
-                <span>Riwayat Terakhir</span>
-                <span onclick="clearHistory()" style="color:#fff; opacity:0.8; cursor:pointer;">HAPUS</span>
-            </div>
-            <div id="historyList"></div>
-        </div>
+        </footer>
     </div>
 
     <div id="toast">Notifikasi</div>
