@@ -3,38 +3,28 @@ const axios = require('axios');
 const cors = require('cors');
 const app = express();
 
-// PENTING: Gunakan PORT dari sistem cloud, atau 3000 kalau di laptop
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
 
-// --- UPDATE AGAR BISA BACA INDEX.HTML ---
-app.use(express.static(__dirname)); 
-
-// --- FUNGSI SATPAM (VALIDATOR) ---
 function isValidTikTokUrl(stringUrl) {
     try {
         const urlObj = new URL(stringUrl);
         return urlObj.hostname.includes('tiktok.com');
-    } catch (err) {
-        return false; 
-    }
+    } catch (err) { return false; }
 }
 
-// Route Tampilan Utama
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-// Route Download
 app.post('/download', async (req, res) => {
     const { url } = req.body;
 
-    if (!url) return res.status(400).json({ error: 'Mohon masukkan URL TikTok.' });
-
-    if (!isValidTikTokUrl(url)) {
-        return res.json({ success: false, error: 'Bahaya! Link ini bukan dari TikTok. 🛡️' });
+    if (!url || !isValidTikTokUrl(url)) {
+        return res.json({ success: false, error: 'Link tidak valid!' });
     }
 
     try {
@@ -42,23 +32,30 @@ app.post('/download', async (req, res) => {
         const data = response.data;
 
         if (data.code === 0) {
+            // Cek jika gambar
             if (data.data.images && data.data.images.length > 0) {
-                return res.json({ success: false, error: 'Link ini berisi Foto Slide. Web ini khusus Video ya! 😅' });
+                return res.json({ success: false, error: 'Maaf, ini postingan Foto Slide.' });
             }
+
+            // KIRIM SEMUA OPSI KUALITAS KE FRONTEND
             res.json({
                 success: true,
                 title: data.data.title,
                 cover: data.data.cover,
-                download_url: data.data.play 
+                author: data.data.author.nickname,
+                // Opsi Download:
+                video_url: data.data.play,      // Kualitas Standar (No Watermark)
+                hd_url: data.data.hdplay,       // Kualitas HD (Jika ada)
+                music_url: data.data.music      // Audio Only (MP3)
             });
         } else {
-            res.json({ success: false, error: 'Video tidak ditemukan / Link Private.' });
+            res.json({ success: false, error: 'Video tidak ditemukan.' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Terjadi kesalahan pada server.' });
+        res.status(500).json({ error: 'Server Error' });
     }
 });
 
 app.listen(PORT, () => {
-    console.log(`Server berjalan di Port ${PORT}`);
+    console.log(`Server v2 berjalan di Port ${PORT}`);
 });

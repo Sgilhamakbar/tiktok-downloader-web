@@ -3,224 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Downloader Pro</title>
+    <title>TikTok Downloader Ultimate</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        /* --- 1. SETUP BACKGROUND BERGERAK --- */
+        /* --- GAYA TAMPILAN (CSS) --- */
         body {
             font-family: 'Outfit', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            /* Background Animasi 4 Warna */
-            background: linear-gradient(-45deg, #000000, #2c003e, #00f2ea, #ff0050);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            margin: 0; padding: 0;
+            background: #121212;
             color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* Animasi agar warna latar bergerak */
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* --- 2. KARTU EFEK KACA (GLASSMORPHISM) --- */
-        .glass-container {
-            background: rgba(255, 255, 255, 0.1); /* Transparan */
-            backdrop-filter: blur(10px); /* Efek Buram/Blur */
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            width: 100%;
-            max-width: 400px;
+        .container {
+            width: 90%;
+            max-width: 450px;
+            margin-top: 50px;
             text-align: center;
         }
 
-        h1 {
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(0, 242, 234, 0.5);
-        }
+        h1 { margin-bottom: 5px; background: linear-gradient(to right, #00f2ea, #ff0050); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
-        p.subtitle {
-            color: #ddd;
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-
-        /* --- 3. INPUT & TOMBOL NEON --- */
-        .input-group { margin-bottom: 25px; }
-
-        input {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50px;
-            color: white;
-            font-size: 14px;
-            outline: none;
-            transition: 0.3s;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        input::placeholder { color: #aaa; }
-
-        input:focus {
-            border-color: #00f2ea;
-            box-shadow: 0 0 15px rgba(0, 242, 234, 0.3);
-        }
-
-        button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(90deg, #ff0050, #00f2ea);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 0 20px rgba(255, 0, 80, 0.4);
-            font-family: 'Outfit', sans-serif;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 242, 234, 0.6);
-        }
-
-        /* --- 4. HASIL --- */
-        #result-area {
-            margin-top: 30px;
-            display: none;
-            animation: popUp 0.5s ease;
-        }
-
-        .video-card {
-            background: rgba(0, 0, 0, 0.3);
+        /* Input & Tombol */
+        .input-box {
+            background: #1e1e1e;
+            padding: 20px;
             border-radius: 15px;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
-
-        img {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 2px solid rgba(255,255,255,0.1);
+        input {
+            width: 100%; padding: 12px;
+            border-radius: 8px; border: 1px solid #333;
+            background: #2a2a2a; color: white;
+            margin-bottom: 10px; box-sizing: border-box;
         }
-
-        h3.video-title {
-            font-size: 13px;
-            color: #fff;
-            margin-bottom: 15px;
-            font-weight: 300;
-        }
-
-        .download-btn {
-            display: block;
-            text-decoration: none;
-            background: white;
-            color: black;
-            padding: 12px;
-            border-radius: 10px;
-            font-weight: bold;
+        button.btn-search {
+            width: 100%; padding: 12px;
+            background: #ff0050; border: none; border-radius: 8px;
+            color: white; font-weight: bold; cursor: pointer;
             transition: 0.3s;
         }
-        
-        .download-btn:hover { background: #00f2ea; box-shadow: 0 0 15px rgba(0, 242, 234, 0.5); }
+        button.btn-search:hover { background: #d60045; }
 
         /* Loader */
         .loader {
-            border: 4px solid rgba(255,255,255,0.1);
-            border-top: 4px solid #00f2ea;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-            display: none;
+            border: 4px solid #333; border-top: 4px solid #00f2ea;
+            border-radius: 50%; width: 30px; height: 30px;
+            animation: spin 1s linear infinite; margin: 20px auto; display: none;
         }
-
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes popUp { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        /* Hasil (Preview & Download) */
+        #result-area { display: none; margin-top: 20px; animation: slideUp 0.5s ease; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .video-card {
+            background: #1e1e1e; padding: 15px; border-radius: 15px;
+            border: 1px solid #333;
+        }
+        
+        /* Video Player Preview */
+        video { width: 100%; border-radius: 10px; margin-bottom: 10px; background: #000; }
+        
+        .info h3 { font-size: 14px; margin: 10px 0; color: #ccc; }
+        .info small { color: #888; display: block; margin-bottom: 15px; }
+
+        /* Pilihan Tombol Download */
+        .download-options { display: flex; flex-direction: column; gap: 8px; }
+        .btn-dl {
+            padding: 10px; border-radius: 8px; text-decoration: none;
+            font-weight: bold; font-size: 14px; display: flex;
+            justify-content: center; align-items: center; gap: 8px;
+            transition: 0.2s; border: none; cursor: pointer;
+        }
+        .dl-mp4 { background: #00f2ea; color: #000; }
+        .dl-hd { background: #25D366; color: #fff; } /* Warna WA/Hijau */
+        .dl-mp3 { background: #2a2a2a; color: #fff; border: 1px solid #555; }
+        
+        .btn-dl:hover { opacity: 0.8; transform: scale(1.02); }
+
+        /* History Section */
+        .history-section {
+            width: 100%; max-width: 450px; margin-top: 40px; margin-bottom: 50px;
+        }
+        .history-title { text-align: left; color: #888; font-size: 12px; margin-bottom: 10px; padding-left: 10px; }
+        
+        .history-item {
+            display: flex; align-items: center; gap: 10px;
+            background: #1e1e1e; padding: 10px; margin-bottom: 8px;
+            border-radius: 10px; border: 1px solid #333;
+        }
+        .history-item img { width: 40px; height: 40px; border-radius: 5px; object-fit: cover; }
+        .history-info { flex: 1; text-align: left; overflow: hidden; }
+        .history-info p { margin: 0; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .history-info span { font-size: 10px; color: #666; }
+        .btn-revisit { background: none; border: none; color: #00f2ea; cursor: pointer; }
+
     </style>
 </head>
 <body>
 
-    <div class="glass-container">
-        <h1>TIKTOK SAVER</h1>
-        <p class="subtitle">Download video HD tanpa watermark</p>
-        
-        <div class="input-group">
-            <input type="text" id="tiktokUrl" placeholder="Tempel link video di sini..." autocomplete="off">
+    <div class="container">
+        <h1>TIKTOK ULTIMATE</h1>
+        <p style="font-size: 12px; color: #888;">Download Video HD & Audio MP3</p>
+
+        <div class="input-box">
+            <input type="text" id="tiktokUrl" placeholder="Tempel link TikTok di sini..." autocomplete="off">
+            <button onclick="downloadVideo()" class="btn-search">🔍 Cari Video</button>
         </div>
-        
-        <button onclick="downloadVideo()">DOWNLOAD 🚀</button>
 
         <div class="loader" id="loader"></div>
 
         <div id="result-area">
             <div class="video-card">
-                <img id="thumb" src="" alt="Cover Video">
-                <h3 id="videoTitle" class="video-title">Judul Video...</h3>
-                <a id="downloadLink" href="#" class="download-btn" target="_blank">⬇️ Simpan Video</a>
+                <video id="videoPreview" controls playsinline></video>
+                
+                <div class="info">
+                    <h3 id="vidTitle">Judul Video...</h3>
+                    <small id="vidAuthor">@Author</small>
+                </div>
+
+                <div class="download-options">
+                    <a id="btnStandard" href="#" target="_blank" class="btn-dl dl-mp4">
+                        <i class="fas fa-video"></i> Download MP4 (Standard)
+                    </a>
+                    
+                    <a id="btnHD" href="#" target="_blank" class="btn-dl dl-hd" style="display:none;">
+                        <i class="fas fa-film"></i> Download HD Quality
+                    </a>
+
+                    <a id="btnAudio" href="#" target="_blank" class="btn-dl dl-mp3">
+                        <i class="fas fa-music"></i> Download MP3 (Audio)
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
+    <div class="history-section">
+        <div class="history-title">RIWAYAT TERAKHIR</div>
+        <div id="historyList">
+            </div>
+        <button onclick="clearHistory()" style="margin-top:10px; background:none; border:none; color:#555; font-size:10px; cursor:pointer;">Bersihkan Riwayat</button>
+    </div>
+
     <script>
+        // --- 1. LOGIKA DOWNLOAD ---
         async function downloadVideo() {
             const urlInput = document.getElementById('tiktokUrl').value;
-            const resultArea = document.getElementById('result-area');
             const loader = document.getElementById('loader');
-            const thumb = document.getElementById('thumb');
-            const videoTitle = document.getElementById('videoTitle');
-            const downloadLink = document.getElementById('downloadLink');
+            const resultArea = document.getElementById('result-area');
 
-            if (!urlInput) {
-                alert("Masukkan link dulu dong! 😉");
-                return;
-            }
+            if (!urlInput) { alert("Link kosong!"); return; }
 
+            // Reset UI
             resultArea.style.display = 'none';
             loader.style.display = 'block';
 
             try {
-                const response = await fetch('/download', {/download', {
+                // Fetch ke server kita
+                const response = await fetch('/download', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ url: urlInput })
                 });
-
                 const data = await response.json();
                 loader.style.display = 'none';
 
                 if (data.success) {
-                    videoTitle.innerText = data.title;
-                    thumb.src = data.cover;
-                    downloadLink.href = data.download_url;
-                    resultArea.style.display = 'block';
-                } else {
-                    alert("Info: " + (data.error || 'Video tidak ditemukan'));
-                }
+                    // Update Preview Video
+                    const videoPlayer = document.getElementById('videoPreview');
+                    videoPlayer.src = data.video_url; // Set sumber video
+                    
+                    document.getElementById('vidTitle').innerText = data.title;
+                    document.getElementById('vidAuthor').innerText = '@' + data.author;
 
-            } catch (error) {
+                    // Update Tombol Download
+                    document.getElementById('btnStandard').href = data.video_url;
+                    document.getElementById('btnAudio').href = data.music_url;
+
+                    // Cek jika HD tersedia
+                    const btnHD = document.getElementById('btnHD');
+                    if (data.hd_url && data.hd_url !== data.video_url) {
+                        btnHD.href = data.hd_url;
+                        btnHD.style.display = 'flex';
+                    } else {
+                        btnHD.style.display = 'none';
+                    }
+
+                    // Tampilkan Hasil
+                    resultArea.style.display = 'block';
+
+                    // SIMPAN KE HISTORY
+                    addToHistory(data.title, data.cover, urlInput, data.author);
+
+                } else {
+                    alert("Gagal: " + data.error);
+                }
+            } catch (err) {
                 loader.style.display = 'none';
-                alert('Server belum nyala atau koneksi terputus.');
+                alert("Terjadi kesalahan koneksi.");
             }
         }
+
+        // --- 2. LOGIKA HISTORY (Disimpan di Browser) ---
+        function addToHistory(title, cover, url, author) {
+            // Ambil history lama dari penyimpanan browser
+            let history = JSON.parse(localStorage.getItem('tiktokHistory')) || [];
+
+            // Buat data baru
+            const newItem = { title, cover, url, author, date: new Date().toLocaleTimeString() };
+
+            // Tambahkan ke paling depan (unshift)
+            history.unshift(newItem);
+
+            // Batasi cuma simpan 5 terakhir
+            if (history.length > 5) history.pop();
+
+            // Simpan lagi
+            localStorage.setItem('tiktokHistory', JSON.stringify(history));
+
+            // Render ulang tampilan
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const historyList = document.getElementById('historyList');
+            const history = JSON.parse(localStorage.getItem('tiktokHistory')) || [];
+
+            historyList.innerHTML = ''; // Kosongkan dulu
+
+            if (history.length === 0) {
+                historyList.innerHTML = '<p style="text-align:center; color:#444; font-size:12px;">Belum ada riwayat.</p>';
+                return;
+            }
+
+            history.forEach(item => {
+                const html = `
+                    <div class="history-item">
+                        <img src="${item.cover}" alt="thumb">
+                        <div class="history-info">
+                            <p>${item.title}</p>
+                            <span>@${item.author} • ${item.date}</span>
+                        </div>
+                        <button class="btn-revisit" onclick="fillInput('${item.url}')">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                `;
+                historyList.innerHTML += html;
+            });
+        }
+
+        function fillInput(url) {
+            document.getElementById('tiktokUrl').value = url;
+            downloadVideo(); // Otomatis cari ulang
+        }
+
+        function clearHistory() {
+            localStorage.removeItem('tiktokHistory');
+            renderHistory();
+        }
+
+        // Saat halaman dibuka, load history
+        renderHistory();
     </script>
 </body>
 </html>
