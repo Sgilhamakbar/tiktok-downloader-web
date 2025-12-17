@@ -70,6 +70,19 @@ app.post('/download', async (req, res) => {
     }
 });
 
+// ... kode lainnya di atas ...
+
+// --- KHUSUS ROBOTS.TXT (Supaya Google tidak bingung) ---
+app.get('/robots.txt', (req, res) => {
+    res.type('text/plain'); // Memaksa server bilang: "Ini Teks Biasa, Bukan HTML"
+    res.send("User-agent: *\nAllow: /");
+});
+
+// --- MENYALAKAN SERVER (Ini yang paling bawah, jangan diubah) ---
+app.listen(PORT, () => {
+    // ...
+});
+
 app.listen(PORT, () => {
     console.log(`Server Aman + Anti-Spam berjalan di Port ${PORT}`);
 });
