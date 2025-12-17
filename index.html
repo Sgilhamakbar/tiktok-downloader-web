@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#000000">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <title>TikTok Downloader</title>
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <title>TikTok Downloader Fresh</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
@@ -14,13 +15,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 1. SYSTEM TYPOGRAPHY (IPHONE/WINDOWS STYLE) --- */
+        /* --- 1. SETTING DASAR (LIGHT MODE) --- */
         body {
-            /* Trik agar font mengikuti HP pengguna (SF Pro di iPhone, Segoe UI di Windows) */
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0; padding: 0;
-            background-color: #000;
-            color: white;
+            background-color: #f2f6ff; /* Putih kebiruan */
+            color: #333; /* Teks Gelap */
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -28,149 +28,149 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* --- 2. BACKGROUND MESH GRADIENT (IOS 17 STYLE) --- */
+        /* --- 2. BACKGROUND FRESH (PASTEL BLOBS) --- */
         .ambient-light {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; overflow: hidden; background: #000;
+            z-index: -1; overflow: hidden; background: #ffffff;
         }
         .orb {
-            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.6;
-            animation: float 10s infinite ease-in-out alternate;
+            position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.8;
+            animation: float 15s infinite ease-in-out alternate;
         }
-        /* Warna-warna gradasi ala iOS */
-        .orb-1 { top: -10%; left: -10%; width: 300px; height: 300px; background: #007AFF; animation-delay: 0s; }
-        .orb-2 { bottom: 20%; right: -10%; width: 250px; height: 250px; background: #BF5AF2; animation-delay: -2s; }
-        .orb-3 { top: 40%; left: 30%; width: 200px; height: 200px; background: #32D74B; opacity: 0.4; animation-delay: -4s; }
+        /* Warna Pastel Cerah */
+        .orb-1 { top: -10%; left: -10%; width: 400px; height: 400px; background: #a2d2ff; } /* Biru Langit */
+        .orb-2 { bottom: 10%; right: -10%; width: 350px; height: 350px; background: #ffc8dd; animation-delay: -5s; } /* Pink Lembut */
+        .orb-3 { top: 40%; left: 30%; width: 300px; height: 300px; background: #cdb4db; opacity: 0.6; animation-delay: -8s; } /* Ungu Muda */
 
         @keyframes float {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(20px, -20px) scale(1.1); }
+            100% { transform: translate(30px, -30px) scale(1.1); }
         }
 
-        /* --- 3. GLASS CARD CONTAINER (ACRYLIC MATERIAL) --- */
+        /* --- 3. CONTAINER KACA SUSU (MILKY GLASS) --- */
         .app-container {
             width: 100%; max-width: 440px;
             padding: 20px 24px; padding-bottom: 100px;
             display: flex; flex-direction: column; align-items: center;
-            /* Efek Kaca Tebal ala iOS Control Center */
-            background: rgba(20, 20, 20, 0.4);
-            backdrop-filter: saturate(180%) blur(50px);
-            -webkit-backdrop-filter: saturate(180%) blur(50px);
-            min-height: 100vh; /* Full screen glass */
+            
+            /* Efek Kaca Putih */
+            background: rgba(255, 255, 255, 0.65); 
+            backdrop-filter: saturate(180%) blur(40px);
+            -webkit-backdrop-filter: saturate(180%) blur(40px);
+            min-height: 100vh;
         }
 
-        /* Header */
-        header { margin-top: 40px; margin-bottom: 30px; text-align: center; }
-        h1 { font-weight: 700; font-size: 28px; margin: 0; letter-spacing: -0.5px; }
-        p.subtitle { color: rgba(235, 235, 245, 0.6); font-size: 15px; margin-top: 6px; font-weight: 400; }
-
-        /* --- 4. IOS INPUT STYLE --- */
-        .search-wrapper {
-            width: 100%; position: relative; margin-bottom: 20px;
+        header { margin-top: 50px; margin-bottom: 30px; text-align: center; }
+        h1 { 
+            font-weight: 800; font-size: 32px; margin: 0; letter-spacing: -1px; 
+            /* Gradasi Teks */
+            background: linear-gradient(135deg, #2b2d42, #8d99ae);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
+        p.subtitle { color: #6c757d; font-size: 15px; margin-top: 8px; font-weight: 500; }
+
+        /* --- 4. INPUT STYLE (LIGHT) --- */
+        .search-wrapper { width: 100%; position: relative; margin-bottom: 20px; }
         
         .ios-input-group {
-            background: rgba(118, 118, 128, 0.24); /* Abu-abu transparan khas iOS */
-            border-radius: 14px; /* Sudut iOS */
-            display: flex; align-items: center;
-            padding: 2px; transition: 0.3s;
+            background: rgba(255, 255, 255, 0.6); /* Putih transparan */
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05); /* Bayangan halus */
+            border-radius: 18px;
+            display: flex; align-items: center; padding: 4px; transition: 0.3s;
         }
-        .ios-input-group:focus-within { background: rgba(118, 118, 128, 0.4); }
+        .ios-input-group:focus-within { 
+            background: #fff; 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1); 
+            transform: translateY(-2px);
+        }
 
         input {
             flex: 1; border: none; background: transparent; padding: 16px;
-            color: white; font-size: 17px; outline: none;
-            font-family: inherit;
+            color: #333; font-size: 17px; outline: none; font-family: inherit; font-weight: 500;
         }
-        input::placeholder { color: rgba(235, 235, 245, 0.6); }
+        input::placeholder { color: #adb5bd; }
 
         .btn-paste {
-            padding: 10px 15px; background: none; border: none;
-            color: #0A84FF; /* iOS Blue */
-            font-size: 18px; cursor: pointer;
-            border-left: 1px solid rgba(255,255,255,0.1);
+            padding: 10px 18px; background: rgba(0, 122, 255, 0.1); border-radius: 12px;
+            border: none; color: #007AFF; font-size: 16px; cursor: pointer; margin-right: 5px;
+            transition: 0.2s;
         }
+        .btn-paste:active { background: #007AFF; color: white; }
 
-        /* TOMBOL UTAMA */
         .btn-ios-primary {
-            width: 100%; padding: 16px;
-            background: #007AFF; /* Warna Biru iOS */
-            color: white; border: none; border-radius: 14px;
-            font-size: 17px; font-weight: 600; cursor: pointer;
-            transition: 0.2s; box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+            width: 100%; padding: 18px;
+            background: linear-gradient(135deg, #4361ee, #3a0ca3); /* Biru Gradasi */
+            color: white; border: none; border-radius: 18px;
+            font-size: 17px; font-weight: 700; cursor: pointer;
+            transition: 0.2s; box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
         }
-        .btn-ios-primary:active { transform: scale(0.98); opacity: 0.9; }
+        .btn-ios-primary:active { transform: scale(0.98); box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2); }
 
-        /* --- 5. RESULT & PREVIEW --- */
+        /* --- 5. RESULT CARD (Clean White) --- */
         .loader {
-            width: 25px; height: 25px; border: 3px solid rgba(255,255,255,0.3);
-            border-top: 3px solid #0A84FF; border-radius: 50%;
+            width: 30px; height: 30px; border: 4px solid rgba(0,0,0,0.1);
+            border-top: 4px solid #4361ee; border-radius: 50%;
             animation: spin 0.8s linear infinite; margin: 30px auto; display: none;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        #result-area {
-            width: 100%; display: none; margin-top: 25px;
-            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* Animasi iOS Spring */
-        }
+        #result-area { width: 100%; display: none; margin-top: 30px; animation: slideUp 0.5s ease; }
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .ios-card {
-            background: rgba(28, 28, 30, 0.6);
-            border-radius: 18px; padding: 16px;
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 24px; padding: 20px;
+            border: 1px solid rgba(255,255,255,1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
         }
 
-        video { width: 100%; border-radius: 12px; margin-bottom: 12px; background: black; }
+        video { width: 100%; border-radius: 16px; margin-bottom: 15px; background: #eee; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
-        .info-row { margin-bottom: 20px; }
-        .info-row h3 { margin: 0; font-size: 16px; font-weight: 600; }
-        .info-row small { color: #8E8E93; font-size: 13px; }
+        .info-row h3 { margin: 0; font-size: 17px; font-weight: 700; color: #333; }
+        .info-row small { color: #888; font-size: 14px; }
 
-        /* Action Buttons List */
-        .action-list { display: flex; flex-direction: column; gap: 10px; }
+        .action-list { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
         .ios-action-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: white; text-decoration: none;
-            padding: 14px; border-radius: 12px;
-            font-size: 15px; font-weight: 500;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            transition: 0.2s;
+            background: #f8f9fa; color: #333; text-decoration: none;
+            padding: 16px; border-radius: 16px;
+            font-size: 15px; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: 0.2s; border: 1px solid rgba(0,0,0,0.05);
         }
-        .ios-action-btn.primary { background: white; color: black; }
-        .ios-action-btn:active { opacity: 0.7; transform: scale(0.99); }
+        .ios-action-btn.primary { background: #333; color: white; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .ios-action-btn:active { transform: scale(0.98); }
 
-        /* --- 6. HISTORY (Dock Style) --- */
+        /* --- 6. HISTORY (Clean List) --- */
         .history-section { width: 100%; margin-top: 40px; }
         .section-title {
-            font-size: 13px; color: #8E8E93; text-transform: uppercase;
-            letter-spacing: 0.5px; margin-bottom: 10px; padding-left: 5px;
+            font-size: 14px; color: #888; font-weight: 700; 
+            margin-bottom: 15px; padding: 0 5px;
             display: flex; justify-content: space-between;
         }
 
         .history-item {
-            background: rgba(44, 44, 46, 0.6);
-            padding: 12px; margin-bottom: 8px; border-radius: 12px;
-            display: flex; align-items: center; gap: 12px;
-            transition: 0.2s;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 12px; margin-bottom: 10px; border-radius: 16px;
+            display: flex; align-items: center; gap: 15px;
+            transition: 0.2s; border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
-        .history-item:active { background: rgba(58, 58, 60, 0.8); }
-        .history-item img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; }
-        .history-text p { margin: 0; font-size: 14px; font-weight: 500; color: #fff; }
-        .history-text span { font-size: 12px; color: #8E8E93; }
+        .history-item:active { background: white; transform: scale(0.98); }
+        .history-item img { width: 50px; height: 50px; border-radius: 12px; object-fit: cover; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .history-text p { margin: 0; font-size: 15px; font-weight: 600; color: #333; }
+        .history-text span { font-size: 13px; color: #888; }
 
-        /* Toast Notification */
+        /* Toast (Tetap Gelap untuk Kontras) */
         #toast {
             visibility: hidden; min-width: 150px;
-            background: rgba(25, 25, 25, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            color: #fff; text-align: center; border-radius: 25px; padding: 12px 24px;
-            position: fixed; z-index: 99; left: 50%; top: 20px; /* Toast di atas ala iOS Dynamic Island */
-            transform: translateX(-50%); font-size: 14px; font-weight: 500;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);
-            transition: 0.3s; opacity: 0;
+            background: rgba(30, 30, 30, 0.9); backdrop-filter: blur(10px);
+            color: #fff; text-align: center; border-radius: 50px; padding: 12px 24px;
+            position: fixed; z-index: 99; left: 50%; top: 20px;
+            transform: translateX(-50%); font-size: 14px; font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; transition: 0.3s;
         }
-        #toast.show { visibility: visible; top: 50px; opacity: 1; }
-
+        #toast.show { visibility: visible; top: 60px; opacity: 1; }
     </style>
 </head>
 <body>
@@ -184,26 +184,25 @@
     <div class="app-container">
         <header>
             <h1>TikTok Saver</h1>
-            <p class="subtitle">Download Video & Audio</p>
+            <p class="subtitle">Download Video HD & Jernih</p>
         </header>
 
         <div class="search-wrapper">
             <div class="ios-input-group">
-                <input type="text" id="tiktokUrl" inputmode="url" placeholder="Tempel Link TikTok..." autocomplete="off">
+                <input type="text" id="tiktokUrl" inputmode="url" placeholder="Tempel Link di sini..." autocomplete="off">
                 <button class="btn-paste" onclick="pasteFromClipboard()">
-                    <i class="fas fa-clipboard"></i>
+                    <i class="fas fa-paste"></i>
                 </button>
             </div>
         </div>
 
-        <button class="btn-ios-primary" onclick="downloadVideo()">Download</button>
+        <button class="btn-ios-primary" onclick="downloadVideo()">Download Video</button>
 
         <div class="loader" id="loader"></div>
 
         <div id="result-area">
             <div class="ios-card">
                 <video id="videoPreview" controls playsinline></video>
-                
                 <div class="info-row">
                     <h3 id="vidTitle">Video Title</h3>
                     <small id="vidAuthor">@username</small>
@@ -211,13 +210,13 @@
 
                 <div class="action-list">
                     <a id="btnStandard" href="#" target="_blank" class="ios-action-btn primary">
-                        <i class="fas fa-arrow-down"></i> Simpan Video
+                        <i class="fas fa-video"></i> Simpan Video
                     </a>
                     <a id="btnHD" href="#" target="_blank" class="ios-action-btn" style="display:none;">
-                        <i class="fas fa-star"></i> Kualitas HD
+                        <i class="fas fa-bolt"></i> Kualitas HD
                     </a>
                     <a id="btnAudio" href="#" target="_blank" class="ios-action-btn">
-                        <i class="fas fa-music"></i> Simpan Audio
+                        <i class="fas fa-music"></i> Simpan Musik
                     </a>
                 </div>
             </div>
@@ -225,8 +224,8 @@
 
         <div class="history-section">
             <div class="section-title">
-                <span>Riwayat</span>
-                <span onclick="clearHistory()" style="color: #0A84FF; cursor: pointer;">Hapus</span>
+                <span>RIWAYAT TERAKHIR</span>
+                <span onclick="clearHistory()" style="color: #4361ee; cursor: pointer;">HAPUS</span>
             </div>
             <div id="historyList"></div>
         </div>
@@ -236,13 +235,11 @@
 
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js');
-            });
+            window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
         }
 
         // --- FUNGSI UX ---
-        function vibrate() { if(navigator.vibrate) navigator.vibrate(10); } // Getar sangat halus (Haptic)
+        function vibrate() { if(navigator.vibrate) navigator.vibrate(10); }
 
         function showToast(msg, icon = 'check-circle') {
             const t = document.getElementById("toast");
@@ -299,7 +296,7 @@
 
                     resultArea.style.display = 'block';
                     addToHistory(data.title, data.cover, urlInput, data.author);
-                    showToast("Selesai");
+                    showToast("Video Ditemukan");
                 } else {
                     showToast("Gagal", "times-circle");
                 }
@@ -309,22 +306,21 @@
             }
         }
 
-        // --- LOGIKA HISTORY ---
         function addToHistory(title, cover, url, author) {
-            let history = JSON.parse(localStorage.getItem('tiktokIOS')) || [];
+            let history = JSON.parse(localStorage.getItem('tiktokLight')) || [];
             history.unshift({ title, cover, url, author });
             if (history.length > 5) history.pop();
-            localStorage.setItem('tiktokIOS', JSON.stringify(history));
+            localStorage.setItem('tiktokLight', JSON.stringify(history));
             renderHistory();
         }
 
         function renderHistory() {
             const list = document.getElementById('historyList');
-            const history = JSON.parse(localStorage.getItem('tiktokIOS')) || [];
+            const history = JSON.parse(localStorage.getItem('tiktokLight')) || [];
             list.innerHTML = '';
 
             if(history.length === 0) {
-                list.innerHTML = '<p style="text-align:center; color:#555; font-size:13px; margin-top:10px;">Belum ada riwayat</p>';
+                list.innerHTML = '<p style="text-align:center; color:#aaa; font-size:13px; margin-top:15px;">Belum ada riwayat</p>';
                 return;
             }
 
@@ -336,7 +332,7 @@
                             <p>${item.title}</p>
                             <span>@${item.author}</span>
                         </div>
-                        <i class="fas fa-chevron-right" style="margin-left:auto; color:#555; font-size:12px;"></i>
+                        <i class="fas fa-chevron-right" style="margin-left:auto; color:#ccc; font-size:12px;"></i>
                     </div>`;
                 list.innerHTML += html;
             });
@@ -350,9 +346,9 @@
 
         function clearHistory() {
             vibrate();
-            localStorage.removeItem('tiktokIOS');
+            localStorage.removeItem('tiktokLight');
             renderHistory();
-            showToast("Riwayat Dihapus");
+            showToast("Riwayat Bersih");
         }
 
         renderHistory();
