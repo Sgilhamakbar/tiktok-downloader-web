@@ -14,17 +14,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 1. BACKGROUND BLUE-PURPLE VIBRANT --- */
+        /* --- 1. BACKGROUND BLUE-PURPLE VIBRANT (TETAP SAMA) --- */
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0; padding: 0; color: white;
             min-height: 100vh; display: flex; justify-content: center;
             overflow-x: hidden; -webkit-tap-highlight-color: transparent;
-            
-            /* PERPADUAN BIRU & UNGU YANG HIDUP */
             background: linear-gradient(-45deg, #000428, #004e92, #4776E6, #8E54E9, #2b1055);
             background-size: 400% 400%;
-            /* Animasi pelan supaya tidak sepi/membosankan */
             animation: vibrantFlow 15s ease infinite;
         }
 
@@ -43,11 +40,10 @@
 
         header { margin-bottom: 35px; text-align: center; }
 
-        /* LOGO GLASS (Lebih Terang) */
         .logo-glass {
             display: inline-flex; align-items: center; justify-content: center;
             width: 86px; height: 86px;
-            background: rgba(255, 255, 255, 0.1); /* Lebih terang dikit */
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-radius: 26px;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -57,12 +53,10 @@
         
         .tiktok-icon-glow {
             font-size: 44px;
-            /* Putih Solid agar kontras dengan background ungu/biru */
             color: #ffffff;
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
         }
 
-        /* NAMA APP */
         .logo-text {
             font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin: 0;
             color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.2);
@@ -71,7 +65,7 @@
 
         /* --- 3. KARTU KACA (GLASS) --- */
         .glass-card {
-            background: rgba(255, 255, 255, 0.1); /* Transparan Putih */
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 24px; padding: 24px; width: 100%;
@@ -79,14 +73,21 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
-        /* --- 4. INPUT & TOMBOL --- */
+        /* --- 4. INPUT & TOMBOL (YANG DIUBAH DI SINI) --- */
         .search-box {
             position: relative; background: rgba(0,0,0,0.2);
             border-radius: 18px; padding: 6px;
-            border: 1px solid rgba(255,255,255,0.1);
+            /* Border default tipis transparan */
+            border: 1px solid rgba(255,255,255,0.1); 
             display: flex; align-items: center; transition: 0.3s;
         }
-        .search-box:focus-within { border-color: #8E54E9; background: rgba(0,0,0,0.3); }
+        
+        /* SAAT DIKLIK: JADI PUTIH BERSIH */
+        .search-box:focus-within { 
+            border-color: #ffffff; /* <-- UBAH JADI PUTIH */
+            background: rgba(0,0,0,0.3);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); /* Glow Putih */
+        }
         
         input {
             flex: 1; border: none; background: transparent; padding: 14px 16px;
@@ -100,13 +101,12 @@
             display: flex; align-items: center; justify-content: center;
             margin-right: 5px; transition: 0.2s;
         }
-        .btn-paste:active { background: #8E54E9; transform: scale(0.9); }
+        .btn-paste:active { background: #ffffff; color: #2b1055; transform: scale(0.9); }
 
         .btn-main {
             width: 100%; padding: 18px; margin-top: 20px;
-            /* Tombol Putih Bersih agar kontras dengan background Ungu/Biru */
             background: #ffffff;
-            color: #2b1055; /* Teks warna ungu gelap */
+            color: #2b1055;
             border: none; border-radius: 18px;
             font-weight: 800; font-size: 16px;
             cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.2);
