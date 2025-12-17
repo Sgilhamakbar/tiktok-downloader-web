@@ -3,151 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#0a0b10"> <title>TikTok Downloader</title>
+    <meta name="theme-color" content="#4facfe">
+    
+    <title>TikTok Downloader</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
     
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 1. BACKGROUND LUXURY DEEP (ALA ROLEX VIBE) --- */
+        /* --- 1. BACKGROUND OCEAN BREEZE (BIRU & MINT) --- */
         body {
-            font-family: 'Be Vietnam Pro', sans-serif;
-            margin: 0; padding: 0; color: white;
-            min-height: 100vh; display: flex; justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            margin: 0; padding: 0;
+            color: #1e293b; /* Teks Biru Gelap (Agar terbaca) */
+            min-height: 100vh;
+            display: flex; justify-content: center;
             overflow-x: hidden; -webkit-tap-highlight-color: transparent;
             
-            /* PERUBAHAN BESAR DI SINI: */
-            /* Tidak lagi animasi gerak, tapi Radial Gradient yang dalam dan kaya */
-            background: radial-gradient(circle at 50% 30%, #23273a 0%, #12141f 40%, #05060a 100%);
-            /* Penjelasan warna:
-               Pusat (agak atas): Biru Navy Gelap (#23273a) sebagai sorotan
-               Tengah: Abu-abu arang kebiruan (#12141f)
-               Pinggir: Hitam pekat (#05060a) untuk kesan vignette mahal
-            */
+            /* Gradasi Animasi: Biru Langit -> Cyan -> Mint Segar */
+            background: linear-gradient(-45deg, #0052D4, #4364F7, #6FB1FC, #00f2fe, #43e97b);
+            background-size: 400% 400%;
+            animation: oceanMove 12s ease infinite;
         }
 
-        /* --- 2. CONTAINER & HEADER --- */
+        @keyframes oceanMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- 2. CONTAINER --- */
         .app-container {
             width: 100%; max-width: 460px;
-            padding: 40px 24px 100px 24px;
+            padding: 30px 24px 100px 24px;
             display: flex; flex-direction: column; align-items: center;
         }
 
-        header { margin-bottom: 40px; text-align: center; }
+        header { margin-bottom: 30px; text-align: center; }
 
-        /* LOGO GLASS (Dipertegas) */
+        /* LOGO GLASS (White) */
         .logo-glass {
             display: inline-flex; align-items: center; justify-content: center;
-            width: 86px; height: 86px;
-            background: rgba(255, 255, 255, 0.03); /* Kaca sangat tipis */
+            width: 80px; height: 80px;
+            background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 26px;
-            border: 1px solid rgba(255, 255, 255, 0.15); /* Garis sedikit lebih terang */
-            margin-bottom: 20px;
-            /* Cahaya yang lebih "fokus" */
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255,255,255,0.05);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            margin-bottom: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
         
-        .tiktok-icon-glow {
-            font-size: 44px;
-            background: linear-gradient(45deg, #25F4EE, #FE2C55);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(37, 244, 238, 0.6));
+        .tiktok-icon-mint {
+            font-size: 40px;
+            color: #fff;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
         }
 
-        /* NAMA BARU */
         .logo-text {
-            font-size: 30px; font-weight: 800; letter-spacing: -0.5px; margin: 0;
-            color: #ffffff; /* Putih bersih agar kontras dengan background gelap */
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin: 0;
+            color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        p.subtitle { color: rgba(255,255,255,0.6); font-size: 15px; margin-top: 8px; font-weight: 500; }
+        p.subtitle { color: rgba(255,255,255,0.9); font-size: 14px; margin-top: 5px; font-weight: 500; }
 
-        /* --- 3. KARTU KACA PREMIUM --- */
+        /* --- 3. KARTU KACA PUTIH (MILKY GLASS) --- */
         .glass-card {
-            /* Kaca yang lebih "padat" dan berkelas */
-            background: rgba(30, 35, 50, 0.3); 
-            backdrop-filter: blur(25px) saturate(120%); /* Saturasi dinaikkan agar warna di baliknya lebih hidup */
-            -webkit-backdrop-filter: blur(25px) saturate(120%);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.75); /* Putih Susu */
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: 24px; padding: 24px; width: 100%;
             box-sizing: border-box; margin-bottom: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2); /* Bayangan lebih dalam */
+            box-shadow: 0 20px 50px rgba(0, 82, 212, 0.15); /* Bayangan Biru Halus */
         }
 
         /* --- 4. INPUT & TOMBOL --- */
         .search-box {
-            position: relative; background: rgba(0,0,0,0.2);
+            position: relative; background: #fff;
             border-radius: 50px; padding: 6px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
             display: flex; align-items: center; transition: 0.3s;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.03);
         }
-        .search-box:focus-within { border-color: #25F4EE; background: rgba(0,0,0,0.4); }
+        .search-box:focus-within { border-color: #4facfe; box-shadow: 0 0 0 4px rgba(79, 172, 254, 0.2); }
+        
         input {
             flex: 1; border: none; background: transparent; padding: 14px 20px;
-            color: white; font-size: 16px; outline: none; font-family: inherit; font-weight: 500;
+            color: #333; font-size: 16px; outline: none; font-family: inherit; font-weight: 600;
         }
-        input::placeholder { color: rgba(255,255,255,0.4); font-weight: 400; }
+        input::placeholder { color: #aaa; font-weight: 400; }
+
         .btn-paste {
             width: 42px; height: 42px; border-radius: 50%; border: none;
-            background: rgba(255,255,255,0.1); color: white; cursor: pointer;
+            background: #f1f5f9; color: #4361ee; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             margin-right: 5px; transition: 0.2s;
         }
-        .btn-paste:active { background: #25F4EE; color: black; transform: scale(0.9); }
+        .btn-paste:active { background: #4361ee; color: white; transform: scale(0.9); }
 
-        .btn-gradient {
+        .btn-mint {
             width: 100%; padding: 18px; margin-top: 24px;
-            background: linear-gradient(90deg, #25F4EE, #FE2C55);
+            /* Gradasi Tombol: Biru ke Mint */
+            background: linear-gradient(90deg, #4361ee, #4cc9f0);
             border: none; border-radius: 18px;
             color: white; font-weight: 700; font-size: 16px; letter-spacing: 0.5px;
-            cursor: pointer; box-shadow: 0 8px 25px rgba(254, 44, 85, 0.3);
+            cursor: pointer; box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
             transition: 0.2s;
         }
-        .btn-gradient:active { transform: scale(0.98); opacity: 0.9; }
+        .btn-mint:active { transform: scale(0.98); opacity: 0.9; }
 
-        /* --- 5. RESULT & OTHERS (Diperhalus) --- */
+        /* --- 5. HASIL & PREVIEW --- */
         .loader {
-            width: 30px; height: 30px; border: 3px solid rgba(255,255,255,0.1);
-            border-top: 3px solid #FE2C55; border-radius: 50%;
+            width: 30px; height: 30px; border: 3px solid rgba(0,0,0,0.1);
+            border-top: 3px solid #4361ee; border-radius: 50%;
             animation: spin 0.8s linear infinite; margin: 20px auto; display: none;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+
         #result-area { display: none; animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes popUp { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-        video { width: 100%; border-radius: 18px; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-        .info-meta h3 { margin: 18px 0 5px 0; font-size: 17px; font-weight: 700; }
-        .info-meta small { color: rgba(255,255,255,0.6); font-size: 14px; }
+        @keyframes popUp { from { transform: scale(0.95) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+
+        video { width: 100%; border-radius: 18px; background: #000; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
+        .info-meta h3 { margin: 15px 0 5px 0; font-size: 17px; font-weight: 700; color: #1e293b; }
+        .info-meta small { color: #64748b; font-size: 14px; }
+
         .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
         .btn-dl {
             padding: 14px; border-radius: 14px; text-decoration: none; font-size: 14px; font-weight: 600;
             text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .dl-full { grid-column: span 2; background: white; color: black; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .dl-sec { background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.1); }
+        .dl-full { grid-column: span 2; background: #1e293b; color: white; box-shadow: 0 5px 15px rgba(30, 41, 59, 0.2); }
+        .dl-sec { background: white; color: #1e293b; border: 1px solid #e2e8f0; }
 
-        /* History & Toast */
-        .history-section { width: 100%; margin-top: 30px; }
-        .h-title { font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: flex; justify-content: space-between; }
-        .h-item { display: flex; align-items: center; gap: 15px; padding: 14px; border-radius: 18px; margin-bottom: 10px; background: rgba(30, 35, 50, 0.3); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); }
+        /* --- 6. HISTORY --- */
+        .history-section { width: 100%; margin-top: 10px; }
+        .h-title { 
+            font-size: 12px; color: rgba(255,255,255,0.8); font-weight: 700; 
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; 
+            display: flex; justify-content: space-between; padding: 0 5px;
+        }
+        
+        .h-item {
+            display: flex; align-items: center; gap: 15px;
+            padding: 12px; border-radius: 16px; margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.85); /* Item Putih */
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            transition: 0.2s;
+        }
+        .h-item:active { transform: scale(0.98); }
         .h-item img { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; }
-        .h-text p { margin: 0; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
-        .h-text span { font-size: 12px; color: rgba(255,255,255,0.5); }
-        #toast { visibility: hidden; min-width: 200px; background: rgba(15, 15, 20, 0.95); backdrop-filter: blur(20px); color: #fff; text-align: center; border-radius: 50px; padding: 14px; position: fixed; z-index: 99; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; border: 1px solid rgba(255,255,255,0.15); opacity: 0; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .h-text p { margin: 0; font-size: 14px; font-weight: 600; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+        .h-text span { font-size: 12px; color: #888; }
+
+        /* Toast */
+        #toast { visibility: hidden; min-width: 200px; background: rgba(30, 41, 59, 0.95); backdrop-filter: blur(10px); color: #fff; text-align: center; border-radius: 50px; padding: 14px; position: fixed; z-index: 99; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; transition: 0.3s; }
         #toast.show { visibility: visible; bottom: 50px; opacity: 1; }
     </style>
 </head>
 <body>
+
     <div class="app-container">
         <header>
             <div class="logo-glass">
-                <i class="fab fa-tiktok tiktok-icon-glow"></i>
+                <i class="fab fa-tiktok tiktok-icon-mint"></i>
             </div>
             <h1 class="logo-text">TikTok Downloader</h1>
-            <p class="subtitle">Simpan Video Kualitas Jernih</p>
+            <p class="subtitle">Download Video Tanpa Watermark</p>
         </header>
 
         <div class="glass-card">
@@ -157,7 +182,7 @@
                     <i class="fas fa-paste"></i>
                 </button>
             </div>
-            <button class="btn-gradient" onclick="downloadVideo()">
+            <button class="btn-mint" onclick="downloadVideo()">
                 Download Video 🚀
             </button>
         </div>
@@ -171,16 +196,16 @@
                 <small id="vidAuthor">@author</small>
             </div>
             <div class="dl-grid">
-                <a id="btnStandard" href="#" target="_blank" class="btn-dl dl-full"><i class="fas fa-video"></i> Simpan MP4</a>
-                <a id="btnHD" href="#" target="_blank" class="btn-dl dl-sec" style="display:none;"><i class="fas fa-bolt"></i> Kualitas HD</a>
-                <a id="btnAudio" href="#" target="_blank" class="btn-dl dl-sec"><i class="fas fa-music"></i> Audio MP3</a>
+                <a id="btnStandard" href="#" target="_blank" class="btn-dl dl-full"><i class="fas fa-video"></i> Download MP4</a>
+                <a id="btnHD" href="#" target="_blank" class="btn-dl dl-sec" style="display:none;"><i class="fas fa-bolt"></i> HD</a>
+                <a id="btnAudio" href="#" target="_blank" class="btn-dl dl-sec"><i class="fas fa-music"></i> Musik</a>
             </div>
         </div>
 
         <div class="history-section">
             <div class="h-title">
                 <span>Riwayat Terakhir</span>
-                <span onclick="clearHistory()" style="color:#FE2C55; cursor:pointer;">HAPUS</span>
+                <span onclick="clearHistory()" style="color:white; opacity:0.8; cursor:pointer;">HAPUS</span>
             </div>
             <div id="historyList"></div>
         </div>
@@ -194,10 +219,10 @@
         function showToast(msg) { const t=document.getElementById("toast"); t.innerText=msg; t.className="show"; setTimeout(()=>t.className=t.className.replace("show",""),2500); }
         async function pasteFromClipboard() { vibrate(); try { const text=await navigator.clipboard.readText(); document.getElementById('tiktokUrl').value=text; showToast("Link Ditempel ✨"); } catch(e) { showToast("Gagal Tempel 😅"); } }
         async function downloadVideo() { vibrate(); const url=document.getElementById('tiktokUrl').value; const loader=document.getElementById('loader'); const resArea=document.getElementById('result-area'); if(!url) { showToast("Link kosong 👀"); return; } resArea.style.display='none'; loader.style.display='block'; try { const response=await fetch('/download', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:url})}); const data=await response.json(); loader.style.display='none'; if(data.success) { document.getElementById('videoPreview').src=data.video_url; document.getElementById('vidTitle').innerText=data.title; document.getElementById('vidAuthor').innerText='@'+data.author; document.getElementById('btnStandard').href=data.video_url; document.getElementById('btnAudio').href=data.music_url; const btnHD=document.getElementById('btnHD'); if(data.hd_url && data.hd_url!==data.video_url) { btnHD.href=data.hd_url; btnHD.style.display='flex'; } else { btnHD.style.display='none'; } resArea.style.display='block'; addToHistory(data.title, data.cover, url, data.author); showToast("Video Siap! 🔥"); } else { showToast(data.error); } } catch(err) { loader.style.display='none'; showToast("Server Error 😭"); } }
-        function addToHistory(t,c,u,a) { let h=JSON.parse(localStorage.getItem('ttRolexLogo'))||[]; h.unshift({t,c,u,a}); if(h.length>5)h.pop(); localStorage.setItem('ttRolexLogo',JSON.stringify(h)); renderHistory(); }
-        function renderHistory() { const list=document.getElementById('historyList'); const h=JSON.parse(localStorage.getItem('ttRolexLogo'))||[]; list.innerHTML=''; if(h.length===0) { list.innerHTML='<p style="text-align:center;color:rgba(255,255,255,0.3);font-size:12px;">Belum ada riwayat.</p>'; return; } h.forEach(i => { list.innerHTML+=`<div class="h-item" onclick="fillInput('${i.u}')"><img src="${i.c}"><div class="h-text"><p>${i.t}</p><span>@${i.a}</span></div><i class="fas fa-play" style="margin-left:auto;color:rgba(255,255,255,0.3);font-size:10px;"></i></div>`; }); }
+        function addToHistory(t,c,u,a) { let h=JSON.parse(localStorage.getItem('ttMint'))||[]; h.unshift({t,c,u,a}); if(h.length>5)h.pop(); localStorage.setItem('ttMint',JSON.stringify(h)); renderHistory(); }
+        function renderHistory() { const list=document.getElementById('historyList'); const h=JSON.parse(localStorage.getItem('ttMint'))||[]; list.innerHTML=''; if(h.length===0) { list.innerHTML='<p style="text-align:center;color:rgba(255,255,255,0.7);font-size:12px;">Belum ada riwayat.</p>'; return; } h.forEach(i => { list.innerHTML+=`<div class="h-item" onclick="fillInput('${i.u}')"><img src="${i.c}"><div class="h-text"><p>${i.t}</p><span>@${i.a}</span></div><i class="fas fa-chevron-right" style="margin-left:auto;color:#ccc;font-size:12px;"></i></div>`; }); }
         function fillInput(u) { vibrate(); document.getElementById('tiktokUrl').value=u; downloadVideo(); }
-        function clearHistory() { vibrate(); localStorage.removeItem('ttRolexLogo'); renderHistory(); showToast("Riwayat Bersih 🧹"); }
+        function clearHistory() { vibrate(); localStorage.removeItem('ttMint'); renderHistory(); showToast("Riwayat Bersih 🧹"); }
         renderHistory();
     </script>
 </body>
