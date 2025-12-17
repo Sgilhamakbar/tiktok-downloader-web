@@ -3,95 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#1a1a2e">
-    <title>TikTok Nebula</title>
+    <meta name="theme-color" content="#0a0b10"> <title>TikTok Downloader</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icon.png">
     
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- 1. BACKGROUND NEBULA --- */
+        /* --- 1. BACKGROUND LUXURY DEEP (ALA ROLEX VIBE) --- */
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
             margin: 0; padding: 0; color: white;
             min-height: 100vh; display: flex; justify-content: center;
             overflow-x: hidden; -webkit-tap-highlight-color: transparent;
-            background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #2b003b);
-            background-size: 400% 400%;
-            animation: nebulaMove 18s ease infinite;
-        }
-        @keyframes nebulaMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            
+            /* PERUBAHAN BESAR DI SINI: */
+            /* Tidak lagi animasi gerak, tapi Radial Gradient yang dalam dan kaya */
+            background: radial-gradient(circle at 50% 30%, #23273a 0%, #12141f 40%, #05060a 100%);
+            /* Penjelasan warna:
+               Pusat (agak atas): Biru Navy Gelap (#23273a) sebagai sorotan
+               Tengah: Abu-abu arang kebiruan (#12141f)
+               Pinggir: Hitam pekat (#05060a) untuk kesan vignette mahal
+            */
         }
 
         /* --- 2. CONTAINER & HEADER --- */
         .app-container {
             width: 100%; max-width: 460px;
-            padding: 30px 24px 100px 24px;
+            padding: 40px 24px 100px 24px;
             display: flex; flex-direction: column; align-items: center;
         }
 
-        header { margin-bottom: 35px; text-align: center; }
+        header { margin-bottom: 40px; text-align: center; }
 
-        /* LOGO BARU YANG KEREN */
+        /* LOGO GLASS (Dipertegas) */
         .logo-glass {
-            display: inline-flex;
-            align-items: center; justify-content: center;
-            width: 80px; height: 80px;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 15px;
-            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.1); /* Cahaya Biru Tipis */
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 86px; height: 86px;
+            background: rgba(255, 255, 255, 0.03); /* Kaca sangat tipis */
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 26px;
+            border: 1px solid rgba(255, 255, 255, 0.15); /* Garis sedikit lebih terang */
+            margin-bottom: 20px;
+            /* Cahaya yang lebih "fokus" */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(255,255,255,0.05);
         }
         
         .tiktok-icon-glow {
-            font-size: 42px;
-            /* Gradasi warna asli TikTok */
+            font-size: 44px;
             background: linear-gradient(45deg, #25F4EE, #FE2C55);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            /* Efek Glowing/Bersinar */
-            filter: drop-shadow(0 0 8px rgba(37, 244, 238, 0.5));
-        }
-
-        .logo-text {
-            font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin: 0;
-            background: linear-gradient(to right, #fff, #ccc);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(37, 244, 238, 0.6));
         }
-        p.subtitle { color: rgba(255,255,255,0.5); font-size: 14px; margin-top: 5px; }
 
-        /* --- 3. KARTU KACA (GLASS CARD) --- */
+        /* NAMA BARU */
+        .logo-text {
+            font-size: 30px; font-weight: 800; letter-spacing: -0.5px; margin: 0;
+            color: #ffffff; /* Putih bersih agar kontras dengan background gelap */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        p.subtitle { color: rgba(255,255,255,0.6); font-size: 15px; margin-top: 8px; font-weight: 500; }
+
+        /* --- 3. KARTU KACA PREMIUM --- */
         .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* Kaca yang lebih "padat" dan berkelas */
+            background: rgba(30, 35, 50, 0.3); 
+            backdrop-filter: blur(25px) saturate(120%); /* Saturasi dinaikkan agar warna di baliknya lebih hidup */
+            -webkit-backdrop-filter: blur(25px) saturate(120%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 24px; padding: 24px; width: 100%;
             box-sizing: border-box; margin-bottom: 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2); /* Bayangan lebih dalam */
         }
 
         /* --- 4. INPUT & TOMBOL --- */
         .search-box {
-            position: relative; background: rgba(0,0,0,0.3);
-            border-radius: 50px; padding: 5px;
+            position: relative; background: rgba(0,0,0,0.2);
+            border-radius: 50px; padding: 6px;
             border: 1px solid rgba(255,255,255,0.1);
             display: flex; align-items: center; transition: 0.3s;
         }
-        .search-box:focus-within { border-color: #25F4EE; box-shadow: 0 0 20px rgba(37, 244, 238, 0.2); }
+        .search-box:focus-within { border-color: #25F4EE; background: rgba(0,0,0,0.4); }
         input {
             flex: 1; border: none; background: transparent; padding: 14px 20px;
-            color: white; font-size: 15px; outline: none; font-family: inherit;
+            color: white; font-size: 16px; outline: none; font-family: inherit; font-weight: 500;
         }
-        input::placeholder { color: rgba(255,255,255,0.4); }
+        input::placeholder { color: rgba(255,255,255,0.4); font-weight: 400; }
         .btn-paste {
-            width: 40px; height: 40px; border-radius: 50%; border: none;
+            width: 42px; height: 42px; border-radius: 50%; border: none;
             background: rgba(255,255,255,0.1); color: white; cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             margin-right: 5px; transition: 0.2s;
@@ -99,17 +100,16 @@
         .btn-paste:active { background: #25F4EE; color: black; transform: scale(0.9); }
 
         .btn-gradient {
-            width: 100%; padding: 16px; margin-top: 20px;
-            /* Gradasi tombol mengikuti warna logo */
+            width: 100%; padding: 18px; margin-top: 24px;
             background: linear-gradient(90deg, #25F4EE, #FE2C55);
-            border: none; border-radius: 16px;
-            color: white; font-weight: 700; font-size: 16px;
-            cursor: pointer; box-shadow: 0 5px 20px rgba(254, 44, 85, 0.3);
+            border: none; border-radius: 18px;
+            color: white; font-weight: 700; font-size: 16px; letter-spacing: 0.5px;
+            cursor: pointer; box-shadow: 0 8px 25px rgba(254, 44, 85, 0.3);
             transition: 0.2s;
         }
         .btn-gradient:active { transform: scale(0.98); opacity: 0.9; }
 
-        /* --- 5. RESULT & OTHERS --- */
+        /* --- 5. RESULT & OTHERS (Diperhalus) --- */
         .loader {
             width: 30px; height: 30px; border: 3px solid rgba(255,255,255,0.1);
             border-top: 3px solid #FE2C55; border-radius: 50%;
@@ -118,25 +118,25 @@
         @keyframes spin { 100% { transform: rotate(360deg); } }
         #result-area { display: none; animation: popUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         @keyframes popUp { from { transform: scale(0.9) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-        video { width: 100%; border-radius: 16px; background: black; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .info-meta h3 { margin: 15px 0 5px 0; font-size: 16px; font-weight: 600; }
-        .info-meta small { color: rgba(255,255,255,0.5); }
-        .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+        video { width: 100%; border-radius: 18px; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .info-meta h3 { margin: 18px 0 5px 0; font-size: 17px; font-weight: 700; }
+        .info-meta small { color: rgba(255,255,255,0.6); font-size: 14px; }
+        .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
         .btn-dl {
-            padding: 12px; border-radius: 12px; text-decoration: none; font-size: 13px; font-weight: 600;
-            text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px;
+            padding: 14px; border-radius: 14px; text-decoration: none; font-size: 14px; font-weight: 600;
+            text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .dl-full { grid-column: span 2; background: white; color: black; }
-        .dl-sec { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.1); }
+        .dl-full { grid-column: span 2; background: white; color: black; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .dl-sec { background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.1); }
 
-        /* History & Toast (Sama) */
-        .history-section { width: 100%; margin-top: 20px; }
+        /* History & Toast */
+        .history-section { width: 100%; margin-top: 30px; }
         .h-title { font-size: 12px; color: rgba(255,255,255,0.5); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: flex; justify-content: space-between; }
-        .h-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 16px; margin-bottom: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); }
-        .h-item img { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; }
-        .h-text p { margin: 0; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
-        .h-text span { font-size: 11px; color: rgba(255,255,255,0.5); }
-        #toast { visibility: hidden; min-width: 200px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); color: #fff; text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 99; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 13px; border: 1px solid rgba(255,255,255,0.1); opacity: 0; transition: 0.3s; }
+        .h-item { display: flex; align-items: center; gap: 15px; padding: 14px; border-radius: 18px; margin-bottom: 10px; background: rgba(30, 35, 50, 0.3); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); }
+        .h-item img { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; }
+        .h-text p { margin: 0; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+        .h-text span { font-size: 12px; color: rgba(255,255,255,0.5); }
+        #toast { visibility: hidden; min-width: 200px; background: rgba(15, 15, 20, 0.95); backdrop-filter: blur(20px); color: #fff; text-align: center; border-radius: 50px; padding: 14px; position: fixed; z-index: 99; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; border: 1px solid rgba(255,255,255,0.15); opacity: 0; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         #toast.show { visibility: visible; bottom: 50px; opacity: 1; }
     </style>
 </head>
@@ -146,35 +146,34 @@
             <div class="logo-glass">
                 <i class="fab fa-tiktok tiktok-icon-glow"></i>
             </div>
-            
-            <h1 class="logo-text">TikTok Nebula</h1>
-            <p class="subtitle">Download Video Tanpa Watermark</p>
+            <h1 class="logo-text">TikTok Downloader</h1>
+            <p class="subtitle">Simpan Video Kualitas Jernih</p>
         </header>
 
         <div class="glass-card">
             <div class="search-box">
-                <input type="text" id="tiktokUrl" inputmode="url" placeholder="Tempel Link di sini..." autocomplete="off">
+                <input type="text" id="tiktokUrl" inputmode="url" placeholder="Tempel Link TikTok..." autocomplete="off">
                 <button class="btn-paste" onclick="pasteFromClipboard()">
                     <i class="fas fa-paste"></i>
                 </button>
             </div>
             <button class="btn-gradient" onclick="downloadVideo()">
-                Mulai Download 🚀
+                Download Video 🚀
             </button>
         </div>
 
         <div class="loader" id="loader"></div>
 
-        <div id="result-area" class="glass-card" style="padding: 20px;">
+        <div id="result-area" class="glass-card" style="padding: 24px;">
             <video id="videoPreview" controls playsinline></video>
             <div class="info-meta">
                 <h3 id="vidTitle">Judul Video</h3>
                 <small id="vidAuthor">@author</small>
             </div>
             <div class="dl-grid">
-                <a id="btnStandard" href="#" target="_blank" class="btn-dl dl-full"><i class="fas fa-video"></i> MP4 Standard</a>
-                <a id="btnHD" href="#" target="_blank" class="btn-dl dl-sec" style="display:none;"><i class="fas fa-bolt"></i> HD Quality</a>
-                <a id="btnAudio" href="#" target="_blank" class="btn-dl dl-sec"><i class="fas fa-music"></i> MP3 Audio</a>
+                <a id="btnStandard" href="#" target="_blank" class="btn-dl dl-full"><i class="fas fa-video"></i> Simpan MP4</a>
+                <a id="btnHD" href="#" target="_blank" class="btn-dl dl-sec" style="display:none;"><i class="fas fa-bolt"></i> Kualitas HD</a>
+                <a id="btnAudio" href="#" target="_blank" class="btn-dl dl-sec"><i class="fas fa-music"></i> Audio MP3</a>
             </div>
         </div>
 
@@ -195,10 +194,10 @@
         function showToast(msg) { const t=document.getElementById("toast"); t.innerText=msg; t.className="show"; setTimeout(()=>t.className=t.className.replace("show",""),2500); }
         async function pasteFromClipboard() { vibrate(); try { const text=await navigator.clipboard.readText(); document.getElementById('tiktokUrl').value=text; showToast("Link Ditempel ✨"); } catch(e) { showToast("Gagal Tempel 😅"); } }
         async function downloadVideo() { vibrate(); const url=document.getElementById('tiktokUrl').value; const loader=document.getElementById('loader'); const resArea=document.getElementById('result-area'); if(!url) { showToast("Link kosong 👀"); return; } resArea.style.display='none'; loader.style.display='block'; try { const response=await fetch('/download', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:url})}); const data=await response.json(); loader.style.display='none'; if(data.success) { document.getElementById('videoPreview').src=data.video_url; document.getElementById('vidTitle').innerText=data.title; document.getElementById('vidAuthor').innerText='@'+data.author; document.getElementById('btnStandard').href=data.video_url; document.getElementById('btnAudio').href=data.music_url; const btnHD=document.getElementById('btnHD'); if(data.hd_url && data.hd_url!==data.video_url) { btnHD.href=data.hd_url; btnHD.style.display='flex'; } else { btnHD.style.display='none'; } resArea.style.display='block'; addToHistory(data.title, data.cover, url, data.author); showToast("Video Siap! 🔥"); } else { showToast(data.error); } } catch(err) { loader.style.display='none'; showToast("Server Error 😭"); } }
-        function addToHistory(t,c,u,a) { let h=JSON.parse(localStorage.getItem('ttNebulaLogo'))||[]; h.unshift({t,c,u,a}); if(h.length>5)h.pop(); localStorage.setItem('ttNebulaLogo',JSON.stringify(h)); renderHistory(); }
-        function renderHistory() { const list=document.getElementById('historyList'); const h=JSON.parse(localStorage.getItem('ttNebulaLogo'))||[]; list.innerHTML=''; if(h.length===0) { list.innerHTML='<p style="text-align:center;color:rgba(255,255,255,0.3);font-size:12px;">Belum ada riwayat.</p>'; return; } h.forEach(i => { list.innerHTML+=`<div class="h-item" onclick="fillInput('${i.u}')"><img src="${i.c}"><div class="h-text"><p>${i.t}</p><span>@${i.a}</span></div><i class="fas fa-play" style="margin-left:auto;color:rgba(255,255,255,0.3);font-size:10px;"></i></div>`; }); }
+        function addToHistory(t,c,u,a) { let h=JSON.parse(localStorage.getItem('ttRolexLogo'))||[]; h.unshift({t,c,u,a}); if(h.length>5)h.pop(); localStorage.setItem('ttRolexLogo',JSON.stringify(h)); renderHistory(); }
+        function renderHistory() { const list=document.getElementById('historyList'); const h=JSON.parse(localStorage.getItem('ttRolexLogo'))||[]; list.innerHTML=''; if(h.length===0) { list.innerHTML='<p style="text-align:center;color:rgba(255,255,255,0.3);font-size:12px;">Belum ada riwayat.</p>'; return; } h.forEach(i => { list.innerHTML+=`<div class="h-item" onclick="fillInput('${i.u}')"><img src="${i.c}"><div class="h-text"><p>${i.t}</p><span>@${i.a}</span></div><i class="fas fa-play" style="margin-left:auto;color:rgba(255,255,255,0.3);font-size:10px;"></i></div>`; }); }
         function fillInput(u) { vibrate(); document.getElementById('tiktokUrl').value=u; downloadVideo(); }
-        function clearHistory() { vibrate(); localStorage.removeItem('ttNebulaLogo'); renderHistory(); showToast("Riwayat Bersih 🧹"); }
+        function clearHistory() { vibrate(); localStorage.removeItem('ttRolexLogo'); renderHistory(); showToast("Riwayat Bersih 🧹"); }
         renderHistory();
     </script>
 </body>
