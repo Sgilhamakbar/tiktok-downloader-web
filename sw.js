@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tiktok-app-v2'; // Ganti jadi v2
+const CACHE_NAME = 'tiktok-app-v3'; // Ganti jadi v3
 const urlsToCache = [
   '/',
   '/index.html',
