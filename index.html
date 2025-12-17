@@ -11,10 +11,13 @@
     <link rel="apple-touch-icon" href="icon.png">
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
-        /* --- 1. BACKGROUND --- */
+        /* --- 1. CORE STYLES --- */
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             margin: 0; padding: 0; color: white;
@@ -24,107 +27,94 @@
             background-size: 400% 400%;
             animation: vibrantFlow 15s ease infinite;
         }
+        @keyframes vibrantFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        @keyframes vibrantFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* --- 2. CONTAINER --- */
         .app-container {
             width: 100%; max-width: 460px;
-            /* Padding bawah ditambah biar footer muat */
-            padding: 40px 24px 40px 24px;
+            padding: 40px 24px 100px 24px;
             display: flex; flex-direction: column; align-items: center;
             min-height: 100vh;
         }
 
-        /* Konten Utama supaya footer terdorong ke bawah */
-        .main-content {
-            width: 100%;
-            flex: 1; /* Ini membuat konten mengisi ruang kosong */
-            display: flex; flex-direction: column; align-items: center;
-        }
-
-        header { margin-bottom: 35px; text-align: center; }
+        /* --- 2. HEADER & LOGO --- */
+        header { margin-bottom: 35px; text-align: center; position: relative; }
 
         .logo-glass {
             display: inline-flex; align-items: center; justify-content: center;
-            width: 86px; height: 86px;
+            width: 90px; height: 90px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 26px;
+            border-radius: 28px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            cursor: pointer; user-select: none; transition: transform 0.2s, background 0.5s;
+            position: relative;
         }
-        
+        .logo-glass:active { transform: scale(0.95); }
+
         .tiktok-icon-glow {
-            font-size: 44px; color: #ffffff;
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+            font-size: 48px; color: #ffffff;
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
+            transition: color 0.5s;
         }
 
-        .logo-text {
-            font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin: 0;
-            color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        /* SKIN: GOLDEN LOGO (Reward) */
+        .gold-skin {
+            background: linear-gradient(135deg, #FFD700, #FDB931) !important;
+            border: 2px solid #FFF8DC !important;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6) !important;
         }
+        .gold-skin .tiktok-icon-glow { color: #5a4a00 !important; filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)); }
+
+        /* Counter Badge */
+        .click-badge {
+            position: absolute; top: -5px; right: -5px;
+            background: #FE2C55; color: white;
+            font-size: 10px; font-weight: 800;
+            padding: 4px 8px; border-radius: 20px;
+            border: 2px solid #2b1055;
+            opacity: 0; transition: 0.3s;
+        }
+        .click-badge.visible { opacity: 1; }
+
+        .logo-text { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin: 0; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
         p.subtitle { color: rgba(255,255,255,0.7); font-size: 15px; margin-top: 6px; font-weight: 500; }
 
-        /* --- 3. COMPONENTS --- */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+        /* --- 3. FUN FACT MODAL --- */
+        #funFactModal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
+            width: 85%; max-width: 350px;
+            background: rgba(15, 23, 42, 0.95); /* Biru Gelap Modern */
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px; padding: 24px; width: 100%;
-            box-sizing: border-box; margin-bottom: 24px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border-radius: 24px; padding: 30px;
+            text-align: center; z-index: 1000;
+            opacity: 0; pointer-events: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
+        #funFactModal.active { opacity: 1; pointer-events: all; transform: translate(-50%, -50%) scale(1); }
+        .fact-icon { font-size: 40px; margin-bottom: 15px; display: block; }
+        .fact-title { color: #38bdf8; font-size: 13px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
+        .fact-text { font-size: 16px; line-height: 1.6; color: white; font-weight: 600; }
+        .timer-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); margin-top: 25px; border-radius: 2px; overflow: hidden; }
+        .timer-progress { height: 100%; background: #38bdf8; width: 0%; transition: width 5s linear; }
 
-        .search-box {
-            position: relative; background: rgba(0,0,0,0.2);
-            border-radius: 18px; padding: 6px;
-            border: 1px solid rgba(255,255,255,0.1);
-            display: flex; align-items: center; transition: 0.3s;
-        }
-        
-        /* BORDER PUTIH SAAT DIKLIK */
-        .search-box:focus-within { 
-            border-color: #ffffff;
-            background: rgba(0,0,0,0.3);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-        }
-        
-        input {
-            flex: 1; border: none; background: transparent; padding: 14px 16px;
-            color: white; font-size: 16px; outline: none; font-family: inherit; font-weight: 500;
-        }
+        /* --- 4. COMPONENTS --- */
+        .glass-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 24px; padding: 24px; width: 100%; box-sizing: border-box; margin-bottom: 24px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2); }
+        .search-box { position: relative; background: rgba(0,0,0,0.2); border-radius: 18px; padding: 6px; border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; transition: 0.3s; }
+        .search-box:focus-within { border-color: #ffffff; background: rgba(0,0,0,0.3); box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
+        input { flex: 1; border: none; background: transparent; padding: 14px 16px; color: white; font-size: 16px; outline: none; font-family: inherit; font-weight: 500; }
         input::placeholder { color: rgba(255,255,255,0.5); }
-        
-        .btn-paste {
-            width: 40px; height: 40px; border-radius: 12px; border: none;
-            background: rgba(255,255,255,0.15); color: white; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            margin-right: 5px; transition: 0.2s;
-        }
+        .btn-paste { width: 40px; height: 40px; border-radius: 12px; border: none; background: rgba(255,255,255,0.15); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; margin-right: 5px; transition: 0.2s; }
         .btn-paste:active { background: #ffffff; color: #2b1055; transform: scale(0.9); }
-
-        .btn-main {
-            width: 100%; padding: 18px; margin-top: 20px;
-            background: #ffffff; color: #2b1055;
-            border: none; border-radius: 18px;
-            font-weight: 800; font-size: 16px;
-            cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            transition: 0.2s;
-        }
+        .btn-main { width: 100%; padding: 18px; margin-top: 20px; background: #ffffff; color: #2b1055; border: none; border-radius: 18px; font-weight: 800; font-size: 16px; cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.2); transition: 0.2s; }
         .btn-main:active { transform: scale(0.98); opacity: 0.9; }
 
         .loader { width: 35px; height: 35px; border: 4px solid rgba(255,255,255,0.2); border-top: 4px solid #fff; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-        
         #result-area { display: none; animation: popUp 0.5s ease; }
         @keyframes popUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
         video { width: 100%; border-radius: 18px; background: rgba(0,0,0,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
         .info-meta h3 { margin: 15px 0 5px 0; font-size: 17px; font-weight: 700; }
         .info-meta small { color: rgba(255,255,255,0.7); font-size: 14px; }
@@ -136,53 +126,38 @@
         .history-section { width: 100%; margin-top: 30px; }
         .h-title { font-size: 12px; color: rgba(255,255,255,0.6); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; display: flex; justify-content: space-between; }
         .h-item { display: flex; align-items: center; gap: 15px; padding: 14px; border-radius: 18px; margin-bottom: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); transition:0.2s; }
-        .h-item:active { background: rgba(255,255,255,0.2); }
         .h-item img { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; }
         .h-text p { margin: 0; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
         .h-text span { font-size: 12px; color: rgba(255,255,255,0.6); }
-        
+
+        footer { margin-top: 50px; text-align: center; width: 100%; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .footer-content { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+        .social-links { margin-top: 10px; display: flex; justify-content: center; gap: 15px; }
+        .social-btn { color: rgba(255,255,255,0.7); font-size: 16px; transition: 0.3s; }
+        .social-btn:hover { color: #fff; transform: scale(1.1); }
+        .disclaimer { font-size: 10px; opacity: 0.5; margin-top: 15px; }
+
+        /* Notifikasi */
         #toast { visibility: hidden; min-width: 200px; background: white; color: #2b1055; font-weight: 700; text-align: center; border-radius: 50px; padding: 14px; position: fixed; z-index: 99; left: 50%; bottom: 40px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); opacity: 0; transition: 0.3s; }
         #toast.show { visibility: visible; bottom: 60px; opacity: 1; }
+        #achieveToast { visibility: hidden; min-width: 250px; background: linear-gradient(90deg, #FFD700, #FDB931); color: #5a4a00; font-weight: 800; text-align: center; border-radius: 16px; padding: 16px; position: fixed; z-index: 1001; left: 50%; top: -100px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 10px 50px rgba(255, 215, 0, 0.4); opacity: 0; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 2px solid #FFF8DC; }
+        #achieveToast.show { visibility: visible; top: 30px; opacity: 1; }
 
-        /* --- 4. FOOTER STYLES --- */
-        footer {
-            margin-top: 50px;
-            text-align: center;
-            width: 100%;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .footer-content {
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-            line-height: 1.6;
-        }
-
-        .footer-content p { margin: 5px 0; }
-        
-        .social-links {
-            margin-top: 10px;
-            display: flex; justify-content: center; gap: 15px;
-        }
-        
-        .social-btn {
-            color: rgba(255,255,255,0.7);
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        .social-btn:hover { color: #fff; transform: scale(1.1); }
-        
-        .disclaimer { font-size: 10px; opacity: 0.5; margin-top: 15px; }
+        /* Animasi Efek */
+        .spin-effect { animation: spinLogo 1s ease-in-out; }
+        @keyframes spinLogo { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .bounce-effect { animation: bounceLogo 0.8s infinite; }
+        @keyframes bounceLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
 
     </style>
 </head>
 <body>
-    <div class="app-container">
+    <div class="app-container" id="appWrapper">
         <div class="main-content">
             <header>
-                <div class="logo-glass">
+                <div class="logo-glass" id="mainLogo" onclick="clickLogo()">
                     <i class="fab fa-tiktok tiktok-icon-glow"></i>
+                    <div id="clickBadge" class="click-badge">0</div>
                 </div>
                 <h1 class="logo-text">TikTok Downloader</h1>
                 <p class="subtitle">Simpan Video HD Favoritmu</p>
@@ -227,17 +202,12 @@
         <footer>
             <div class="footer-content">
                 <p>&copy; <span id="year"></span> TikTok Downloader. All rights reserved.</p>
-                
-    <script>
-        document.getElementById("year").innerText = new Date().getFullYear();
-    </script>
-                
+                <p>Made with <i class="fas fa-heart" style="color:#fe2c55;"></i> by <b>Partner Coding</b></p>
                 <div class="social-links">
                     <a href="#" class="social-btn"><i class="fab fa-github"></i></a>
                     <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
                     <a href="#" class="social-btn"><i class="fas fa-envelope"></i></a>
                 </div>
-
                 <p class="disclaimer">
                     Disclaimer: This tool is not affiliated with TikTok or ByteDance.<br>
                     Use for personal educational purposes only.
@@ -246,12 +216,135 @@
         </footer>
     </div>
 
+    <div id="funFactModal">
+        <span class="fact-icon">✨</span>
+        <div class="fact-title">FAKTA ALAM UNIK</div>
+        <div class="fact-text" id="factContent">Isi fakta...</div>
+        <div class="timer-bar"><div class="timer-progress" id="factTimer"></div></div>
+    </div>
+
     <div id="toast">Notifikasi</div>
+    <div id="achieveToast"><i class="fas fa-trophy"></i> ACHIEVEMENT UNLOCKED!</div>
 
     <script>
+        document.getElementById("year").innerText = new Date().getFullYear();
         if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
         function vibrate() { if(navigator.vibrate) navigator.vibrate(15); }
         function showToast(msg) { const t=document.getElementById("toast"); t.innerText=msg; t.className="show"; setTimeout(()=>t.className=t.className.replace("show",""),2500); }
+
+        // --- SISTEM GAME & EASTER EGG ---
+        let clickCount = parseInt(localStorage.getItem('ttClickCount')) || 0;
+        let currentFactIndex = parseInt(localStorage.getItem('ttFactIndex')) || 0;
+        
+        const logo = document.getElementById('mainLogo');
+        const badge = document.getElementById('clickBadge');
+
+        if(clickCount > 0) {
+            badge.innerText = clickCount;
+            badge.classList.add('visible');
+            checkSkinReward();
+        }
+
+        // --- DATA FAKTA ALAM UNIK (LENGKAP) ---
+        const natureFacts = [
+            "<b>Pisang itu beri, tapi stroberi bukan. 🍌</b><br><br><span style='font-size:13px; opacity:0.8'>Secara botani, pisang masuk kategori buah beri, sedangkan stroberi adalah 'buah agregat'.</span>",
+            "<b>Ada lebih banyak pohon di Bumi daripada bintang di Galaksi. 🌌</b><br><br><span style='font-size:13px; opacity:0.8'>Estimasi pohon: 3 triliun. Estimasi bintang: 400 miliar. Mengubah perspektif skala!</span>",
+            "<b>Satu hari di Venus lebih lama daripada satu tahun di Venus. 🪐</b><br><br><span style='font-size:13px; opacity:0.8'>Venus berputar pada porosnya sangat lambat, tapi mengelilingi matahari lebih cepat.</span>",
+            "<b>Hiu Greenland bisa hidup sampai 400 tahun. 🦈</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka baru mencapai kematangan seksual di usia 150 tahun. Masa remaja 1,5 abad!</span>",
+            "<b>Awan 'fluffy' itu beratnya bisa 500.000 kg. ☁️</b><br><br><span style='font-size:13px; opacity:0.8'>Setara dengan berat 100 gajah, tapi tetap melayang.</span>",
+            "<b>Kotoran Wombat bentuknya kubus. 💩</b><br><br><span style='font-size:13px; opacity:0.8'>Ini supaya kotorannya tidak menggelinding jatuh saat dipakai menandai wilayah di atas batu.</span>",
+            "<b>Sigung bisa handstand sebelum menyemprot. 🦨</b><br><br><span style='font-size:13px; opacity:0.8'>Ini adalah tarian peringatan agar musuh mundur sebelum diserang.</span>",
+            "<b>Kupu-kupu mencicipi rasa dengan kakinya. 🦋</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka mendarat di daun untuk tahu apakah itu makanan yang cocok untuk ulatnya nanti.</span>",
+            "<b>Mata burung unta lebih besar dari otaknya. 🐦</b><br><br><span style='font-size:13px; opacity:0.8'>Definisi 'mata keranjang' secara harfiah, mungkin?</span>",
+            "<b>Dulu, penguin setinggi manusia pernah hidup. 🐧</b><br><br><span style='font-size:13px; opacity:0.8'>Namanya Anthropornis nordenskjoeldi, tingginya sekitar 1,8 meter. Seram atau lucu?</span>",
+            "<b>Berang-berang laut pegangan tangan saat tidur. 🦦</b><br><br><span style='font-size:13px; opacity:0.8'>Supaya mereka tidak hanyut terpisah oleh arus laut. Romantis, kan?</span>",
+            "<b>Sapi punya sahabat karib (Bestie). 🐮</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka akan stres berat jika dipisahkan dari sahabat sapi tertentunya.</span>",
+            "<b>Tupai menanam pohon karena lupa. 🐿️</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka mengubur biji dan lupa lokasinya, yang akhirnya tumbuh menjadi hutan baru.</span>"
+        ];
+
+        function clickLogo() {
+            clickCount++;
+            localStorage.setItem('ttClickCount', clickCount);
+            badge.innerText = clickCount;
+            badge.classList.add('visible');
+            
+            checkAchievements();
+            runVisualEffects();
+        }
+
+        function checkAchievements() {
+            if (clickCount === 10) showAchievement("Achievement: Curious Mind! (10 Klik)");
+            else if (clickCount === 20) {
+                showAchievement("✨ GOLDEN SKIN UNLOCKED! ✨");
+                logo.classList.add('gold-skin');
+                confetti({ particleCount: 200, spread: 100, colors: ['#FFD700', '#FFFFFF'] });
+            }
+        }
+
+        function checkSkinReward() {
+            if (clickCount >= 20) logo.classList.add('gold-skin');
+        }
+
+        function showAchievement(msg) {
+            const t = document.getElementById("achieveToast");
+            t.innerHTML = `<i class="fas fa-trophy"></i> ${msg}`;
+            t.className = "show";
+            if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            setTimeout(() => t.className = t.className.replace("show", ""), 4000);
+        }
+
+        function runVisualEffects() {
+            if(navigator.vibrate) navigator.vibrate(50);
+            
+            logo.classList.remove('spin-effect', 'bounce-effect');
+            void logo.offsetWidth; 
+
+            // LOGIKA PASTI:
+            // Genap (2, 4, 6...) -> FAKTA
+            // Ganjil (1, 3, 5...) -> EFEK VISUAL
+            
+            if (clickCount % 2 === 0) {
+                showFunFact();
+            } else {
+                // Acak antara Party atau Bounce untuk efek visual
+                const luck = Math.random();
+                if (luck > 0.5) {
+                    logo.classList.add('spin-effect');
+                    confetti({ particleCount: 100, spread: 60, origin: { y: 0.3 }, colors: ['#25F4EE', '#FE2C55'] });
+                } else {
+                    logo.classList.add('bounce-effect');
+                    setTimeout(() => logo.classList.remove('bounce-effect'), 2000);
+                }
+            }
+        }
+
+        function showFunFact() {
+            const modal = document.getElementById('funFactModal');
+            const content = document.getElementById('factContent');
+            const timer = document.getElementById('factTimer');
+            
+            // AMBIL FAKTA SECARA URUT
+            const fact = natureFacts[currentFactIndex];
+            content.innerHTML = fact; 
+            
+            // Update Index
+            currentFactIndex++;
+            if (currentFactIndex >= natureFacts.length) {
+                currentFactIndex = 0; // Reset jika habis
+            }
+            localStorage.setItem('ttFactIndex', currentFactIndex);
+            
+            modal.classList.add('active');
+            
+            timer.style.width = '0%';
+            setTimeout(() => timer.style.width = '100%', 100); 
+
+            setTimeout(() => {
+                modal.classList.remove('active');
+                timer.style.width = '0%';
+            }, 5500);
+        }
+
         async function pasteFromClipboard() { vibrate(); try { const text=await navigator.clipboard.readText(); document.getElementById('tiktokUrl').value=text; showToast("Link Berhasil Ditempel ✨"); } catch(e) { showToast("Gagal Tempel 😅"); } }
         async function downloadVideo() { vibrate(); const url=document.getElementById('tiktokUrl').value; const loader=document.getElementById('loader'); const resArea=document.getElementById('result-area'); if(!url) { showToast("Link masih kosong 👀"); return; } resArea.style.display='none'; loader.style.display='block'; try { const response=await fetch('/download', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:url})}); const data=await response.json(); loader.style.display='none'; if(data.success) { document.getElementById('videoPreview').src=data.video_url; document.getElementById('vidTitle').innerText=data.title; document.getElementById('vidAuthor').innerText='@'+data.author; document.getElementById('btnStandard').href=data.video_url; document.getElementById('btnAudio').href=data.music_url; const btnHD=document.getElementById('btnHD'); if(data.hd_url && data.hd_url!==data.video_url) { btnHD.href=data.hd_url; btnHD.style.display='flex'; } else { btnHD.style.display='none'; } resArea.style.display='block'; addToHistory(data.title, data.cover, url, data.author); showToast("Video Siap! 🔥"); } else { showToast(data.error); } } catch(err) { loader.style.display='none'; showToast("Server Error 😭"); } }
         function addToHistory(t,c,u,a) { let h=JSON.parse(localStorage.getItem('ttPurpleBlue'))||[]; h.unshift({t,c,u,a}); if(h.length>5)h.pop(); localStorage.setItem('ttPurpleBlue',JSON.stringify(h)); renderHistory(); }
