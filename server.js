@@ -106,6 +106,22 @@ app.get('/sitemap.xml', (req, res) => {
 
 // ... app.listen ada di bawah sini ...
 
+// ... kode sitemap di atas ...
+
+// --- HANDLER 404 (Halaman Tidak Ditemukan) ---
+// Ini akan menangkap semua link yang tidak terdaftar
+app.use((req, res) => {
+    res.status(404).send(`
+        <body style="background:#2b1055; color:white; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; font-family:sans-serif; text-align:center;">
+            <h1 style="font-size:5rem; margin:0;">404</h1>
+            <p>Waduh! Halaman yang kamu cari nyasar ke dimensi lain.</p>
+            <a href="/" style="color:#25F4EE; text-decoration:none; border:1px solid #25F4EE; padding:10px 20px; border-radius:20px; margin-top:20px;">Kembali ke Home</a>
+        </body>
+    `);
+});
+
+// app.listen ada di sini...
+
 app.listen(PORT, () => {
     console.log(`Server Aman + Anti-Spam berjalan di Port ${PORT}`);
 });
