@@ -3,629 +3,464 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#2b1055" id="metaThemeColor">
-    
-    <title>TikTok Downloader</title>
+    <title>Converter Video to MP3</title>
     
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="theme-color" content="#1a1a1a">
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
     
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* --- 1. CSS VARIABLES --- */
+        /* --- 1. CONFIG VARIABLES (LIGHT MODE DEFAULT) --- */
         :root {
-            /* DARK THEME */
-            --bg-gradient: linear-gradient(-45deg, #000428, #004e92, #4776E6, #8E54E9, #2b1055);
-            --text-color: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            --input-bg: rgba(0, 0, 0, 0.2);
-            --input-focus-border: #ffffff;
-            --btn-paste-bg: rgba(255, 255, 255, 0.15);
-            --btn-paste-color: #ffffff;
-            --btn-main-bg: #ffffff;
-            --btn-main-text: #2b1055;
-            --seo-bg: rgba(255, 255, 255, 0.05);
-            --seo-highlight: #25F4EE;
-            --history-item-bg: rgba(255, 255, 255, 0.1);
-            --modal-bg: rgba(15, 23, 42, 0.95);
-            --modal-text: #ffffff;
+            /* Latar Belakang Terang (Ceramic) */
+            --bg-anim: linear-gradient(-45deg, #eef2f3, #dbe6f6, #eef2f3, #e0eafc);
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --text-main: #1d1d1f;
+            --text-sub: #555555;
+            --input-bg: rgba(255, 255, 255, 0.6);
+            --btn-bg: #0071e3;
+            --btn-text: #ffffff;
+            --section-header: #1d1d1f;
+            --step-badge-bg: #1d1d1f;
+            --step-badge-text: #fff;
+            --inverse-text: #ffffff;
+            --footer-bg: rgba(255, 255, 255, 0.4);
         }
 
-        /* LIGHT THEME */
-        body.light-mode {
-            --bg-gradient: linear-gradient(-45deg, #a18cd1, #fbc2eb, #fad0c4, #ff9a9e);
-            --text-color: #2d3436;
-            --text-secondary: rgba(0, 0, 0, 0.6);
-            --glass-bg: rgba(255, 255, 255, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.8);
-            --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            --input-bg: rgba(255, 255, 255, 0.5);
-            --input-focus-border: #6c5ce7;
-            --btn-paste-bg: rgba(255, 255, 255, 0.8);
-            --btn-paste-color: #6c5ce7;
-            --btn-main-bg: #6c5ce7;
-            --btn-main-text: #ffffff;
-            --seo-bg: rgba(255, 255, 255, 0.4);
-            --seo-highlight: #6c5ce7;
-            --history-item-bg: rgba(255, 255, 255, 0.6);
-            --modal-bg: rgba(255, 255, 255, 0.95);
-            --modal-text: #2d3436;
+        /* --- DARK MODE OVERRIDES --- */
+        body.dark-mode {
+            /* Latar Belakang Gelap (Deep Space) */
+            --bg-anim: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #141E30);
+            --glass-bg: rgba(20, 20, 20, 0.6); 
+            --glass-border: rgba(255, 255, 255, 0.1); 
+            --text-main: #f5f5f7;
+            --text-sub: #a1a1a6;
+            --input-bg: rgba(0, 0, 0, 0.3);
+            --btn-bg: rgba(255, 255, 255, 0.1);
+            --btn-text: #ffffff;
+            --section-header: #f5f5f7;
+            --step-badge-bg: #fff;
+            --step-badge-text: #000;
+            --inverse-text: #000000;
+            --footer-bg: rgba(0, 0, 0, 0.2);
         }
 
-        /* --- 2. CORE STYLES --- */
-        * { box-sizing: border-box; }
+        /* --- 2. GLOBAL STYLES & ANIMATION --- */
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0; padding: 0; 
-            color: var(--text-color);
-            min-height: 100vh; display: flex; justify-content: center;
-            overflow-x: hidden; -webkit-tap-highlight-color: transparent;
-            background: var(--bg-gradient);
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-anim); 
             background-size: 400% 400%;
-            animation: vibrantFlow 15s ease infinite;
-            transition: color 0.3s ease;
-        }
-        @keyframes vibrantFlow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        .app-container {
-            width: 100%; max-width: 100%;
-            padding: 40px 20px;
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh; margin: 0; display: flex; flex-direction: column;
+            overflow-x: hidden; color: var(--text-main);
+            
+            /* ANIMASI TRANSISI THEME (PENTING) */
+            transition: background 0.5s ease, color 0.5s ease;
         }
 
-        .main-content {
-            width: 100%; max-width: 460px;
-            display: flex; flex-direction: column; align-items: center;
+        /* Terapkan transisi ke elemen lain juga */
+        .glass-card, footer, .input-glass, .feature-card, .step-item, .theme-toggle {
+            transition: background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease, color 0.5s ease;
         }
 
-        /* --- 3. HEADER --- */
-        header { margin-bottom: 35px; text-align: center; position: relative; width: 100%; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-        .theme-toggle {
-            position: absolute; top: 0; right: 0;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            color: var(--text-color);
-            width: 40px; height: 40px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; font-size: 18px;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        /* --- 3. THEME TOGGLE (Fixed) --- */
+        .theme-toggle { 
+            position: fixed; top: 20px; right: 20px; 
+            width: 45px; height: 45px; min-width: 45px; min-height: 45px;
+            background: var(--glass-bg); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 50%; cursor: pointer; font-size: 20px; 
+            color: var(--text-main); z-index: 9999; 
+            backdrop-filter: blur(10px); 
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         .theme-toggle:active { transform: scale(0.9); }
 
-        .logo-glass {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 90px; height: 90px;
+        /* --- 4. MAIN LAYOUT --- */
+        .page-wrapper {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            padding: 80px 20px 40px 20px; 
+            gap: 70px; max-width: 1000px; margin: 0 auto; width: 100%; box-sizing: border-box;
+        }
+
+        /* HERO CARD */
+        .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 28px;
+            backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
             border: 1px solid var(--glass-border);
-            margin-bottom: 20px;
-            box-shadow: var(--glass-shadow);
-            cursor: pointer; user-select: none; transition: transform 0.2s;
-            position: relative;
+            border-radius: 30px; padding: 40px;
+            width: 100%; max-width: 450px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            position: relative; z-index: 2;
         }
-        .logo-glass:active { transform: scale(0.95); }
-
-        .tiktok-icon-glow {
-            font-size: 48px; color: var(--text-color);
-            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.4));
-            transition: color 0.5s;
+        
+        h1 {
+            font-weight: 700; font-size: 26px; margin: 0; letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--text-main) 30%, var(--text-sub));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
+        .subtitle { color: var(--text-sub); font-size: 14px; margin-top: 5px; margin-bottom: 30px; }
+        .icon-3d { font-size: 50px; margin-bottom: 15px; animation: floatIcon 4s ease-in-out infinite; display: inline-block; }
+        @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-        .gold-skin {
-            background: linear-gradient(135deg, #FFD700, #FDB931) !important;
-            border: 2px solid #FFF8DC !important;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6) !important;
-        }
-        .gold-skin .tiktok-icon-glow { color: #5a4a00 !important; filter: drop-shadow(0 0 5px rgba(255,255,255,0.8)); }
-
-        .click-badge {
-            position: absolute; top: -5px; right: -5px;
-            background: #FE2C55; color: white;
-            font-size: 10px; font-weight: 800;
-            padding: 4px 8px; border-radius: 20px;
-            border: 2px solid white;
-            opacity: 0; transition: 0.3s;
-        }
-        .click-badge.visible { opacity: 1; }
-
-        .logo-text { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin: 0; color: var(--text-color); text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        p.subtitle { color: var(--text-secondary); font-size: 15px; margin-top: 6px; font-weight: 500; }
-
-        /* --- 4. INPUT & TOMBOL --- */
-        .glass-card { 
-            background: var(--glass-bg); 
-            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+        /* INPUT GLOW */
+        .input-glass { 
+            background: var(--input-bg); 
             border: 1px solid var(--glass-border); 
-            border-radius: 24px; padding: 24px; width: 100%; 
-            box-sizing: border-box; margin-bottom: 24px; 
-            box-shadow: var(--glass-shadow); 
-            transition: background 0.3s;
+            border-radius: 16px; padding: 15px; margin-bottom: 20px;
+            animation: glowPulse 3s infinite alternate;
+        }
+        @keyframes glowPulse {
+            0% { border-color: rgba(255, 255, 255, 0.2); box-shadow: 0 0 5px rgba(0, 113, 227, 0.0); }
+            100% { border-color: #0071e3; box-shadow: 0 0 20px rgba(0, 113, 227, 0.4); }
         }
 
-        .search-box { 
-            position: relative; background: var(--input-bg); 
-            border-radius: 18px; padding: 6px; 
-            border: 1px solid var(--glass-border); 
-            display: flex; align-items: center; transition: 0.3s; 
-        }
-        .search-box:focus-within { 
-            border-color: var(--input-focus-border); 
-            background: var(--input-bg);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); 
-        }
-        
-        input { 
-            flex: 1; border: none; background: transparent; padding: 14px 16px; 
-            color: var(--text-color); font-size: 16px; outline: none; 
-            font-family: inherit; font-weight: 500; width: 100%; 
-        }
-        input::placeholder { color: var(--text-secondary); }
-        
-        .btn-clear {
-            display: none; background: transparent; border: none;
-            color: var(--text-secondary); font-size: 14px; width: 30px; height: 40px;
-            cursor: pointer; transition: 0.2s;
-        }
-        .btn-clear:hover { color: var(--text-color); }
-
-        .btn-paste { 
-            width: 40px; height: 40px; border-radius: 12px; border: none; 
-            background: var(--btn-paste-bg); color: var(--btn-paste-color); 
-            cursor: pointer; display: flex; align-items: center; justify-content: center; 
-            margin-right: 5px; transition: 0.2s; flex-shrink: 0; 
-        }
-        .btn-paste:active { transform: scale(0.9); }
-
-        .btn-main { 
-            width: 100%; padding: 18px; margin-top: 20px; 
-            background: var(--btn-main-bg); color: var(--btn-main-text); 
-            border: none; border-radius: 18px; font-weight: 800; font-size: 16px; 
-            cursor: pointer; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: 0.2s; 
-        }
-        .btn-main:active { transform: scale(0.98); opacity: 0.9; }
-
-        .loader { width: 35px; height: 35px; border: 4px solid var(--glass-border); border-top: 4px solid var(--text-color); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 20px auto; display: none; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        
-        #result-area { display: none; animation: popUp 0.5s ease; width: 100%; }
-        @keyframes popUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        video { width: 100%; border-radius: 18px; background: rgba(0,0,0,0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .info-meta h3 { margin: 15px 0 5px 0; font-size: 17px; font-weight: 700; color: var(--text-color); }
-        .info-meta small { color: var(--text-secondary); font-size: 14px; }
-        
-        .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
-        .btn-dl { padding: 14px; border-radius: 14px; text-decoration: none; font-size: 14px; font-weight: 700; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
-        .btn-dl:active { transform: scale(0.95); }
-        .dl-full { grid-column: span 2; background: var(--btn-main-bg); color: var(--btn-main-text); }
-        .dl-sec { background: var(--glass-bg); color: var(--text-color); border: 1px solid var(--glass-border); }
-        .dl-share { grid-column: span 2; background: #25D366; color: white; border: none; cursor: pointer; }
-
-        /* --- 5. HISTORY SECTION (DIPERBAIKI) --- */
-        .history-section { width: 100%; margin-top: 30px; }
-        .h-title { 
-            font-size: 12px; color: var(--text-secondary); font-weight: 700; 
-            text-transform: uppercase; letter-spacing: 1px; 
-            margin-bottom: 15px; display: flex; justify-content: space-between; 
-        }
-        
-        /* FIX: Overflow dan Ukuran Font */
-        .h-item { 
-            display: flex; align-items: center; gap: 12px; 
-            padding: 10px; /* Padding dikurangi sedikit biar compact */
-            border-radius: 16px; margin-bottom: 10px; 
-            background: var(--history-item-bg); 
-            border: 1px solid var(--glass-border); 
-            transition: 0.2s; 
-            overflow: hidden; /* Mencegah konten keluar */
-        }
-        
-        .h-item img { 
-            width: 40px; height: 40px; 
-            border-radius: 10px; object-fit: cover; 
-            flex-shrink: 0; /* Gambar tidak boleh gepeng */
-        }
-        
-        .h-text {
-            flex: 1; /* Mengisi sisa ruang */
-            min-width: 0; /* PENTING: Agar text-overflow ellipsis bekerja di Flexbox */
-            display: flex; flex-direction: column;
+        input[type="file"] { width: 100%; color: var(--text-sub); font-size: 13px; }
+        input[type="file"]::file-selector-button {
+            border: none; background: rgba(128, 128, 128, 0.2); color: var(--text-main);
+            font-weight: 600; padding: 8px 16px; border-radius: 8px; margin-right: 15px; cursor: pointer;
         }
 
-        .h-text p { 
-            margin: 0; 
-            font-size: 13px; /* Font dikecilkan */
-            font-weight: 600; color: var(--text-color); 
-            white-space: nowrap; 
-            overflow: hidden; 
-            text-overflow: ellipsis; /* Titik-titik jika kepanjangan */
+        .btn-glass {
+            background: var(--btn-bg); color: var(--btn-text); border: 1px solid rgba(255,255,255,0.1);
+            padding: 16px; border-radius: 50px; font-size: 15px; font-weight: 600; cursor: pointer;
+            width: 100%; backdrop-filter: blur(10px); transition: 0.3s;
         }
-        
-        .h-text span { 
-            font-size: 11px; /* Font username dikecilkan */
-            color: var(--text-secondary); 
-            margin-top: 2px;
+        .btn-glass:hover { transform: scale(1.02); filter: brightness(1.1); }
+
+        /* --- SECTIONS (CARA PAKAI & FITUR) --- */
+        .section-header { text-align: center; margin-bottom: 30px; position: relative; width: 100%; }
+        .section-title {
+            font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--section-header); border-bottom: 2px solid var(--text-sub);
+            padding-bottom: 5px; display: inline-block;
         }
 
-        /* --- 6. SEO BOX --- */
-        .seo-box { width: 100%; max-width: 600px; margin: 40px auto 20px auto; padding: 25px; background: var(--seo-bg); border-radius: 24px; border: 1px solid var(--glass-border); text-align: left; }
-        .seo-box h2 { font-size: 18px; color: var(--text-color); margin-bottom: 15px; margin-top: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; }
-        .seo-box h2:first-child { margin-top: 0; }
-        .seo-box ol, .seo-box ul { padding-left: 20px; color: var(--text-secondary); }
-        .seo-box li { margin-bottom: 10px; font-size: 14px; line-height: 1.6; }
-        .seo-box b { color: var(--seo-highlight); }
-        .feature-list { list-style: none; padding: 0 !important; }
-        .feature-list li { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-        .feature-list i { color: var(--seo-highlight); width: 20px; text-align: center; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; width: 100%; }
+        .feature-card {
+            background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
+            padding: 25px; border-radius: 20px; text-align: left;
+        }
+        .f-icon { font-size: 22px; margin-bottom: 12px; display: block; }
+        .f-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; color: var(--text-main); }
+        .f-desc { font-size: 12px; color: var(--text-sub); line-height: 1.6; }
 
-        /* Modal & Toast */
-        #funFactModal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 85%; max-width: 350px; background: var(--modal-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 24px; padding: 30px; text-align: center; z-index: 1000; opacity: 0; pointer-events: none; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-        #funFactModal.active { opacity: 1; pointer-events: all; transform: translate(-50%, -50%) scale(1); }
-        .fact-title { color: var(--seo-highlight); font-size: 13px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
-        .fact-text { font-size: 16px; line-height: 1.6; color: var(--modal-text); font-weight: 600; }
-        .timer-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.1); margin-top: 25px; border-radius: 2px; overflow: hidden; }
-        .timer-progress { height: 100%; background: var(--seo-highlight); width: 0%; transition: width 5s linear; }
+        .steps-container { display: flex; gap: 15px; flex-wrap: wrap; width: 100%; }
+        .step-item {
+            flex: 1; min-width: 250px;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            padding: 25px 20px; border-radius: 18px;
+            display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+        }
+        .step-badge {
+            font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+            background: var(--step-badge-bg); color: var(--step-badge-text);
+            padding: 4px 10px; border-radius: 4px;
+        }
+        .step-text { font-size: 13px; color: var(--text-main); font-weight: 500; line-height: 1.5; }
 
-        /* --- 7. FOOTER (DIPERBAIKI) --- */
+        /* --- 5. MEGA FOOTER (GRID SYSTEM REPAIRED) --- */
         footer { 
-            margin-top: 50px; 
-            text-align: center; 
-            width: 100%; 
-            padding-top: 20px; 
+            padding: 60px 20px 30px 20px; 
+            margin-top: auto; 
             border-top: 1px solid var(--glass-border); 
-            padding-bottom: 30px; /* Tambahan padding bawah */
+            width: 100%; 
+            background: var(--footer-bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
         }
-        .footer-content { 
-            font-size: 12px; 
-            color: var(--text-secondary); 
-            line-height: 1.6; 
+
+        .footer-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            /* Default: 3 Kolom Sejajar */
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 40px;
+            text-align: left;
+            margin-bottom: 40px;
         }
-        .social-links { margin-top: 10px; display: flex; justify-content: center; gap: 15px; }
-        .social-btn { color: var(--text-secondary); font-size: 16px; transition: 0.3s; }
-        .social-btn:hover { color: var(--text-color); transform: scale(1.1); }
+
+        .f-col h4 {
+            font-size: 13px; font-weight: 800; color: var(--text-main);
+            margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        .f-links { display: flex; flex-direction: column; gap: 12px; }
+        .f-link {
+            font-size: 13px; color: var(--text-sub); text-decoration: none; transition: 0.3s;
+            font-weight: 500; display: block;
+        }
+        .f-link:hover { color: #0071e3; transform: translateX(5px); }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(48, 209, 88, 0.1); border: 1px solid rgba(48, 209, 88, 0.3);
+            padding: 6px 12px; border-radius: 50px;
+            font-size: 11px; font-weight: 700; color: #30d158;
+            margin-bottom: 15px;
+        }
+        .dot { width: 8px; height: 8px; background: #30d158; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         
-        /* FIX DISCLAIMER: Pastikan terlihat */
-        .disclaimer { 
-            font-size: 11px; 
-            opacity: 0.7; 
-            margin-top: 15px; 
-            display: block; /* Pastikan block */
-            color: var(--text-secondary);
+        .live-stat { font-size: 12px; color: var(--text-sub); display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+        .live-num { font-weight: 700; color: var(--text-main); }
+
+        /* Footer Bottom */
+        .footer-bottom {
+            max-width: 1000px; margin: 0 auto;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 30px;
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 15px;
+        }
+        .copyright { font-size: 11px; color: var(--text-sub); font-weight: 500; }
+        .credits { font-size: 11px; color: var(--text-main); font-weight: 500; }
+        .partner-bold { font-weight: 800; color: var(--text-main); }
+        .heart { color: #e25555; display: inline-block; animation: beat 1.5s infinite; }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .footer-grid { 
+                grid-template-columns: 1fr; /* Jadi 1 kolom di HP */
+                gap: 40px; 
+            }
+            .footer-bottom { flex-direction: column; text-align: center; }
+            .steps-container { flex-direction: column; }
         }
 
-        #toast { visibility: hidden; min-width: 200px; background: white; color: #2b1055; font-weight: 700; text-align: center; border-radius: 50px; padding: 14px; position: fixed; z-index: 99; left: 50%; bottom: 40px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); opacity: 0; transition: 0.3s; }
-        #toast.show { visibility: visible; bottom: 60px; opacity: 1; }
-        #achieveToast { visibility: hidden; min-width: 250px; background: linear-gradient(90deg, #FFD700, #FDB931); color: #5a4a00; font-weight: 800; text-align: center; border-radius: 16px; padding: 16px; position: fixed; z-index: 1001; left: 50%; top: -100px; transform: translateX(-50%); font-size: 14px; box-shadow: 0 10px 50px rgba(255, 215, 0, 0.4); opacity: 0; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 2px solid #FFF8DC; }
-        #achieveToast.show { visibility: visible; top: 30px; opacity: 1; }
-
-        .spin-effect { animation: spinLogo 1s ease-in-out; }
-        @keyframes spinLogo { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .bounce-effect { animation: bounceLogo 0.8s infinite; }
-        @keyframes bounceLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
-        .effect-barrel-roll { transform: rotate(360deg) scale(0.8); }
-        .effect-ghost { filter: invert(100%) hue-rotate(180deg); }
-
+        /* Utils */
+        .loader { width: 30px; height: 30px; margin: 20px auto; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--text-main); border-radius: 50%; animation: spin 1s infinite; display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .success-holo { margin-top: 20px; padding: 15px; border-radius: 16px; background: rgba(48, 209, 88, 0.1); border: 1px solid rgba(48, 209, 88, 0.3); text-align: center; }
+        .action-row { display: flex; gap: 10px; margin-top: 10px; }
+        .mini-btn { flex: 1; padding: 10px; border-radius: 10px; font-size: 13px; font-weight: 600; text-decoration: none; cursor: pointer; border: none; }
+        .dl-btn { background: var(--text-main); color: var(--inverse-text); } 
+        .sh-btn { background: rgba(128,128,128,0.2); color: var(--text-main); }
+        #toast { visibility: hidden; min-width: 150px; background: rgba(20,20,20,0.8); color: white; border-radius: 50px; padding: 10px 20px; position: fixed; top: 30px; left: 50%; transform: translateX(-50%); z-index: 100; font-size: 12px; opacity: 0; transition: 0.4s; }
+        #toast.show { visibility: visible; opacity: 1; top: 80px; }
     </style>
+    
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
 </head>
-<body class="">
-    <div class="app-container" id="appWrapper">
-        <div class="main-content">
-            <header>
-                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
-                    <i class="fas fa-sun"></i>
-                </button>
-
-                <div class="logo-glass" id="mainLogo" onclick="clickLogo()">
-                    <i class="fab fa-tiktok tiktok-icon-glow"></i>
-                    <div id="clickBadge" class="click-badge">0</div>
-                </div>
-                <h1 class="logo-text">TikTok Downloader</h1>
-                <p class="subtitle">Simpan Video HD Favoritmu</p>
-            </header>
-
-            <div class="glass-card">
-                <div class="search-box">
-                    <input type="text" id="tiktokUrl" inputmode="url" placeholder="Tempel Link TikTok..." autocomplete="off">
-                    <button class="btn-clear" id="clearBtn" onclick="clearInput()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <button class="btn-paste" onclick="pasteFromClipboard()">
-                        <i class="fas fa-paste"></i>
-                    </button>
-                </div>
-                <button class="btn-main" onclick="downloadVideo()">
-                    Download Video ⚡
-                </button>
-            </div>
-
-            <div class="loader" id="loader"></div>
-
-            <div id="result-area" class="glass-card" style="padding: 24px;">
-                <video id="videoPreview" controls playsinline></video>
-                <div class="info-meta">
-                    <h3 id="vidTitle">Judul Video</h3>
-                    <small id="vidAuthor">@author</small>
-                </div>
-                <div class="dl-grid">
-                    <a id="btnStandard" href="#" target="_blank" class="btn-dl dl-full"><i class="fas fa-arrow-down"></i> Simpan MP4</a>
-                    <a id="btnHD" href="#" target="_blank" class="btn-dl dl-sec" style="display:none;"><i class="fas fa-bolt"></i> HD</a>
-                    <a id="btnAudio" href="#" target="_blank" class="btn-dl dl-sec"><i class="fas fa-music"></i> MP3</a>
-                    <button id="btnShare" class="btn-dl dl-share" onclick="shareResult()">
-                        <i class="fas fa-share-alt"></i> Bagikan
-                    </button>
-                </div>
-            </div>
-
-            <div class="history-section">
-                <div class="h-title">
-                    <span>Riwayat Terakhir</span>
-                    <span onclick="clearHistory()" style="cursor:pointer; color: var(--seo-highlight);">HAPUS</span>
-                </div>
-                <div id="historyList"></div>
-            </div>
-        </div>
-
-        <div class="seo-box">
-            <h2>Cara Download Video TikTok Tanpa Watermark</h2>
-            <ol>
-                <li>Buka aplikasi TikTok dan pilih video favoritmu.</li>
-                <li>Klik tombol <b>Bagikan (Share)</b> lalu pilih <b>Salin Tautan (Copy Link)</b>.</li>
-                <li>Tempel link di kolom input di atas.</li>
-                <li>Klik tombol <b>Download Video</b>.</li>
-                <li>Pilih format <b>MP4</b> atau <b>MP3 (Musik)</b>.</li>
-            </ol>
-            
-            <h2>Fitur Unggulan</h2>
-            <ul class="feature-list">
-                <li><i class="fas fa-bolt"></i> <b>Kualitas HD:</b> Video jernih tanpa pecah.</li>
-                <li><i class="fas fa-tint-slash"></i> <b>Tanpa Watermark:</b> Bersih dari logo TikTok.</li>
-                <li><i class="fas fa-gift"></i> <b>Gratis Selamanya:</b> Tidak perlu daftar atau bayar.</li>
-                <li><i class="fas fa-shield-alt"></i> <b>Aman & Cepat:</b> Tanpa iklan yang mengganggu.</li>
-            </ul>
-        </div>
-
-        <footer>
-            <div class="footer-content">
-                <p>&copy; <span id="year"></span> TikTok Downloader. All rights reserved </p>
-                <p>Made with <i class="fas fa-heart" style="color:#fe2c55;"></i> by <b>Partner Coding</b></p>
-                <div class="social-links">
-                    <a href="#" class="social-btn"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
-                </div>
-                <p class="disclaimer">Disclaimer: This tool is not affiliated with TikTok or ByteDance.<br>Use for personal educational purposes only.</p>
-            </div>
-        </footer>
-    </div>
-
-    <div id="funFactModal">
-        <span class="fact-icon">✨</span>
-        <div class="fact-title">FAKTA ALAM UNIK</div>
-        <div class="fact-text" id="factContent">Isi fakta...</div>
-        <div class="timer-bar"><div class="timer-progress" id="factTimer"></div></div>
-    </div>
-
+<body class="dark-mode"> <button class="theme-toggle" id="themeBtn" onclick="toggleTheme()">☀</button>
     <div id="toast">Notifikasi</div>
-    <div id="achieveToast"><i class="fas fa-trophy"></i> ACHIEVEMENT UNLOCKED!</div>
+
+    <div class="page-wrapper">
+        
+        <main class="glass-card">
+            <div class="icon-3d">💿</div>
+            <h1>Converter Video to MP3</h1>
+            <p class="subtitle">Ubah video ke audio tanpa upload. Aman & Privat.</p>
+
+            <div class="input-glass">
+                <input type="file" id="uploader" accept="video/*">
+            </div>
+
+            <button id="convertBtn" class="btn-glass" onclick="convert()">Konversi File</button>
+
+            <div id="loader" class="loader"></div>
+            <p id="status-text" style="margin-top:15px; font-size:12px; color:var(--text-sub)"></p>
+            <div id="output-area"></div>
+        </main>
+
+        <div style="width: 100%;">
+            <div class="section-header"><span class="section-title">CARA PENGGUNAAN</span></div>
+            <div class="steps-container">
+                <div class="step-item">
+                    <span class="step-badge">LANGKAH 01</span>
+                    <span class="step-text">Pilih file video yang ingin diubah dari galeri HP atau Laptop.</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-badge">LANGKAH 02</span>
+                    <span class="step-text">Klik tombol konversi dan tunggu proses ekstraksi audio.</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-badge">LANGKAH 03</span>
+                    <span class="step-text">Unduh file MP3 hasilnya atau bagikan langsung.</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="width: 100%;">
+            <div class="section-header"><span class="section-title">KEUNGGULAN SISTEM</span></div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="f-icon">🔒</span>
+                    <div class="f-title">PRIVASI TOTAL</div>
+                    <div class="f-desc">File diproses di RAM perangkatmu. Tidak ada data yang dikirim ke server luar.</div>
+                </div>
+                <div class="feature-card">
+                    <span class="f-icon">⚡</span>
+                    <div class="f-title">PERFORMA LOKAL</div>
+                    <div class="f-desc">Menggunakan teknologi WebAssembly untuk kecepatan setara aplikasi desktop.</div>
+                </div>
+                <div class="feature-card">
+                    <span class="f-icon">📱</span>
+                    <div class="f-title">PWA READY</div>
+                    <div class="f-desc">Instal sebagai aplikasi di Android & iOS. Bisa berjalan tanpa internet.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            
+            <div class="f-col">
+                <h4>Converter Pro</h4>
+                <div class="status-badge">
+                    <span class="dot"></span> All Systems Operational
+                </div>
+                <div class="live-stat">
+                    <span>👥</span> <span class="live-num" id="visitorCount">...</span> Pengguna Online
+                </div>
+                <div class="live-stat">
+                    <span>⚡</span> <span class="live-num">v2.4.0</span> (Stable Build)
+                </div>
+            </div>
+
+            <div class="f-col">
+                <h4>Legal & Info</h4>
+                <div class="f-links">
+                    <a href="privacy.html" class="f-link">Kebijakan Privasi</a>
+                    <a href="terms.html" class="f-link">Syarat & Ketentuan</a>
+                    <a href="terms.html#copyright" class="f-link">Penafian Hak Cipta</a>
+                    <a href="terms.html#security" class="f-link">Keamanan & Teknologi</a>
+                </div>
+            </div>
+
+            <div class="f-col">
+                <h4>Pusat Bantuan</h4>
+                <div class="f-links">
+                    <a href="faq.html" class="f-link">FAQ (Tanya Jawab)</a>
+                    <a href="mailto:emailmu@gmail.com?subject=Laporan Bug" class="f-link">Laporkan Bug</a>
+                    <a href="faq.html" class="f-link">Panduan Penggunaan</a>
+                    <a href="mailto:emailmu@gmail.com?subject=Halo Dev" class="f-link">Kontak Developer</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                &copy; <span id="year"></span> Converter Video to MP3 Pro. All rights reserved.
+            </div>
+            <div class="credits">
+                Made with <span class="heart">❤</span> by <span class="partner-bold">Partner Coding</span>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        document.getElementById("year").innerText = new Date().getFullYear();
-        if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
-        function vibrate() { if(navigator.vibrate) navigator.vibrate(15); }
-        function showToast(msg) { const t=document.getElementById("toast"); t.innerText=msg; t.className="show"; setTimeout(()=>t.className=t.className.replace("show",""),2500); }
-
-        const urlInput = document.getElementById('tiktokUrl');
-        const clearBtn = document.getElementById('clearBtn');
-
-        urlInput.addEventListener('input', function() {
-            if (this.value.trim() !== "") {
-                clearBtn.style.display = "block";
-            } else {
-                clearBtn.style.display = "none";
-            }
-        });
-
-        function clearInput() {
-            urlInput.value = "";
-            clearBtn.style.display = "none";
-            urlInput.focus();
-            vibrate();
-        }
-
-        async function pasteFromClipboard() {
-            vibrate();
-            try {
-                const text = await navigator.clipboard.readText();
-                urlInput.value = text;
-                showToast("Link Berhasil Ditempel ✨");
-                if (text) clearBtn.style.display = "block";
-            } catch(e) {
-                showToast("Gagal Tempel 😅");
-            }
-        }
-
+        // --- 1. THEME LOGIC (FIXED) ---
         const themeBtn = document.getElementById('themeBtn');
-        const metaTheme = document.getElementById('metaThemeColor');
-        let isLight = localStorage.getItem('ttTheme') === 'light';
-
-        if (isLight) {
-            document.body.classList.add('light-mode');
-            themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
-            metaTheme.setAttribute('content', '#fbc2eb');
-        } else {
-            themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
-            metaTheme.setAttribute('content', '#2b1055');
+        const body = document.body;
+        
+        // Cek LocalStorage
+        if (localStorage.getItem('theme') === 'light') {
+            disableDarkMode();
         }
 
         function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-            isLight = !isLight;
-            localStorage.setItem('ttTheme', isLight ? 'light' : 'dark');
-            themeBtn.style.transform = 'rotate(360deg)';
-            setTimeout(() => themeBtn.style.transform = 'rotate(0deg)', 300);
-            if (isLight) {
-                themeBtn.innerHTML = '<i class="fas fa-moon"></i>';
-                metaTheme.setAttribute('content', '#fbc2eb');
+            if (body.classList.contains('dark-mode')) {
+                disableDarkMode();
+                showToast("Light Theme Active");
             } else {
-                themeBtn.innerHTML = '<i class="fas fa-sun"></i>';
-                metaTheme.setAttribute('content', '#2b1055');
-            }
-            vibrate();
-        }
-
-        let currentVideoData = {};
-
-        async function shareResult() {
-            vibrate();
-            if (navigator.share) {
-                try {
-                    await navigator.share({
-                        title: 'TikTok Downloader',
-                        text: `Tonton video ini: ${currentVideoData.title} (@${currentVideoData.author})`,
-                        url: currentVideoData.video_url
-                    });
-                    showToast("Berhasil dibagikan! 🚀");
-                } catch (err) { console.log('Share dibatalkan'); }
-            } else {
-                try {
-                    await navigator.clipboard.writeText(currentVideoData.video_url);
-                    showToast("Link video disalin! 📋");
-                } catch (e) { showToast("Gagal share 😅"); }
+                enableDarkMode();
+                showToast("Dark Theme Active");
             }
         }
 
-        let clickCount = parseInt(localStorage.getItem('ttClickCount')) || 0;
-        let currentFactIndex = parseInt(localStorage.getItem('ttFactIndex')) || 0;
-        const logo = document.getElementById('mainLogo');
-        const badge = document.getElementById('clickBadge');
-
-        if(clickCount > 0) {
-            badge.innerText = clickCount;
-            badge.classList.add('visible');
-            if(clickCount >= 20) logo.classList.add('gold-skin');
+        function enableDarkMode() {
+            body.classList.add('dark-mode');
+            themeBtn.innerText = "☀";
+            localStorage.setItem('theme', 'dark');
         }
 
-        const natureFacts = [
-            "<b>Pisang itu beri, tapi stroberi bukan. 🍌</b><br><br><span style='font-size:13px; opacity:0.8'>Secara botani, pisang masuk kategori buah beri, sedangkan stroberi adalah 'buah agregat'.</span>",
-            "<b>Ada lebih banyak pohon di Bumi daripada bintang di Galaksi. 🌌</b><br><br><span style='font-size:13px; opacity:0.8'>Estimasi pohon: 3 triliun. Estimasi bintang: 400 miliar. Mengubah perspektif skala!</span>",
-            "<b>Satu hari di Venus lebih lama daripada satu tahun di Venus. 🪐</b><br><br><span style='font-size:13px; opacity:0.8'>Venus berputar pada porosnya sangat lambat, tapi mengelilingi matahari lebih cepat.</span>",
-            "<b>Hiu Greenland bisa hidup sampai 400 tahun. 🦈</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka baru mencapai kematangan seksual di usia 150 tahun. Masa remaja 1,5 abad!</span>",
-            "<b>Awan 'fluffy' itu beratnya bisa 500.000 kg. ☁️</b><br><br><span style='font-size:13px; opacity:0.8'>Setara dengan berat 100 gajah, tapi tetap melayang.</span>",
-            "<b>Kotoran Wombat bentuknya kubus. 💩</b><br><br><span style='font-size:13px; opacity:0.8'>Ini supaya kotorannya tidak menggelinding jatuh saat dipakai menandai wilayah di atas batu.</span>",
-            "<b>Sigung bisa handstand sebelum menyemprot. 🦨</b><br><br><span style='font-size:13px; opacity:0.8'>Ini adalah tarian peringatan agar musuh mundur sebelum diserang.</span>",
-            "<b>Kupu-kupu mencicipi rasa dengan kakinya. 🦋</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka mendarat di daun untuk tahu apakah itu makanan yang cocok untuk ulatnya nanti.</span>",
-            "<b>Mata burung unta lebih besar dari otaknya. 🐦</b><br><br><span style='font-size:13px; opacity:0.8'>Definisi 'mata keranjang' secara harfiah, mungkin?</span>",
-            "<b>Dulu, penguin setinggi manusia pernah hidup. 🐧</b><br><br><span style='font-size:13px; opacity:0.8'>Namanya Anthropornis nordenskjoeldi, tingginya sekitar 1,8 meter. Seram atau lucu?</span>",
-            "<b>Berang-berang laut pegangan tangan saat tidur. 🦦</b><br><br><span style='font-size:13px; opacity:0.8'>Supaya mereka tidak hanyut terpisah oleh arus laut. Romantis, kan?</span>",
-            "<b>Sapi punya sahabat karib (Bestie). 🐮</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka akan stres berat jika dipisahkan dari sahabat sapi tertentunya.</span>",
-            "<b>Tupai menanam pohon karena lupa. 🐿️</b><br><br><span style='font-size:13px; opacity:0.8'>Mereka mengubur biji dan lupa lokasinya, yang akhirnya tumbuh menjadi hutan baru.</span>"
-        ];
-
-        function clickLogo() {
-            clickCount++;
-            localStorage.setItem('ttClickCount', clickCount);
-            badge.innerText = clickCount;
-            badge.classList.add('visible');
-            checkAchievements();
-            runVisualEffects();
+        function disableDarkMode() {
+            body.classList.remove('dark-mode');
+            themeBtn.innerText = "🌙";
+            localStorage.setItem('theme', 'light');
         }
 
-        function checkAchievements() {
-            if (clickCount === 10) showAchievement("Achievement: Curious Mind! (10 Klik)");
-            else if (clickCount === 20) {
-                showAchievement("✨ GOLDEN SKIN UNLOCKED! ✨");
-                logo.classList.add('gold-skin');
-                confetti({ particleCount: 200, spread: 100, colors: ['#FFD700', '#FFFFFF'] });
+        function showToast(msg) { 
+            const t = document.getElementById('toast'); 
+            t.innerText = msg; t.className = "show"; 
+            setTimeout(() => t.className = t.className.replace("show", ""), 3000); 
+        }
+
+        // --- 2. LOGIC LAINNYA ---
+        if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js')); }
+        document.getElementById('year').innerText = new Date().getFullYear();
+
+        // Counter Palsu
+        function updateVisitorCount() {
+            const baseCount = 1200; 
+            const randomFlux = Math.floor(Math.random() * 50);
+            document.getElementById('visitorCount').innerText = (baseCount + randomFlux).toLocaleString();
+        }
+        updateVisitorCount(); setInterval(updateVisitorCount, 5000);
+
+        // --- 3. CONVERTER ---
+        const { createFFmpeg, fetchFile } = FFmpeg;
+        const ffmpeg = createFFmpeg({ log: true, corePath: 'https://unpkg.com/@ffmpeg/core-st@0.11.1/dist/ffmpeg-core.js', mainName: 'main' });
+        const statusText = document.getElementById('status-text');
+        const outputArea = document.getElementById('output-area');
+        const convertBtn = document.getElementById('convertBtn');
+        const loader = document.getElementById('loader');
+        let finalMp3Blob = null;
+
+        const convert = async () => {
+            const uploader = document.getElementById('uploader');
+            const files = uploader.files;
+            
+            if (files.length === 0) { showToast("⚠️ Pilih file dulu"); return; }
+            if (!files[0].type.startsWith('video/')) { showToast("⛔ Bukan video!"); return; }
+            
+            statusText.innerText = "Processing..."; outputArea.innerHTML = "";
+            convertBtn.disabled = true; convertBtn.style.opacity = "0.5"; loader.style.display = "block";
+
+            try {
+                if (!ffmpeg.isLoaded()) await ffmpeg.load();
+                ffmpeg.FS('writeFile', 'input', await fetchFile(files[0]));
+                await ffmpeg.run('-i', 'input', 'output.mp3');
+                
+                const data = ffmpeg.FS('readFile', 'output.mp3');
+                finalMp3Blob = new Blob([data.buffer], { type: 'audio/mp3' });
+                const url = URL.createObjectURL(finalMp3Blob);
+                
+                outputArea.innerHTML = `
+                    <div class="success-holo">
+                        <div style="font-weight:600; margin-bottom:5px">Selesai</div>
+                        <div class="action-row">
+                            <a href="${url}" download="Audio.mp3" class="mini-btn dl-btn">⬇ Download MP3</a>
+                            <button onclick="shareFile()" class="mini-btn sh-btn" id="shareBtn">🔗 Share</button>
+                        </div>
+                    </div>`;
+                loader.style.display = "none"; statusText.innerText = "";
+                if (!navigator.canShare) document.getElementById('shareBtn').style.display = 'none';
+            } catch (e) {
+                console.error(e); loader.style.display = "none"; statusText.innerText = "Gagal.";
             }
-        }
+            convertBtn.disabled = false; convertBtn.style.opacity = "1";
+        };
 
-        function showAchievement(msg) {
-            const t = document.getElementById("achieveToast");
-            t.innerHTML = `<i class="fas fa-trophy"></i> ${msg}`;
-            t.className = "show";
-            if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
-            setTimeout(() => t.className = t.className.replace("show", ""), 4000);
+        async function shareFile() {
+            if (!finalMp3Blob) return;
+            const file = new File([finalMp3Blob], "audio.mp3", { type: "audio/mp3" });
+            if (navigator.canShare) navigator.share({ files: [file], title: 'Audio' });
         }
-
-        function runVisualEffects() {
-            if(navigator.vibrate) navigator.vibrate(50);
-            logo.classList.remove('spin-effect', 'bounce-effect');
-            void logo.offsetWidth; 
-            if (clickCount % 2 === 0) {
-                showFunFact();
-            } else {
-                const luck = Math.random();
-                if (luck > 0.5) {
-                    logo.classList.add('spin-effect');
-                    confetti({ particleCount: 100, spread: 60, origin: { y: 0.3 }, colors: ['#25F4EE', '#FE2C55'] });
-                } else {
-                    logo.classList.add('bounce-effect');
-                    setTimeout(() => logo.classList.remove('bounce-effect'), 2000);
-                }
-            }
-        }
-
-        function showFunFact() {
-            const modal = document.getElementById('funFactModal');
-            const content = document.getElementById('factContent');
-            const timer = document.getElementById('factTimer');
-            const fact = natureFacts[currentFactIndex];
-            content.innerHTML = fact; 
-            currentFactIndex++;
-            if (currentFactIndex >= natureFacts.length) currentFactIndex = 0;
-            localStorage.setItem('ttFactIndex', currentFactIndex);
-            modal.classList.add('active');
-            timer.style.width = '0%';
-            setTimeout(() => timer.style.width = '100%', 100); 
-            setTimeout(() => {
-                modal.classList.remove('active');
-                timer.style.width = '0%';
-            }, 5500);
-        }
-
-        async function downloadVideo() { 
-            vibrate(); 
-            const url=document.getElementById('tiktokUrl').value; 
-            const loader=document.getElementById('loader'); 
-            const resArea=document.getElementById('result-area'); 
-            if(!url) { showToast("Link masih kosong 👀"); return; } 
-            resArea.style.display='none'; 
-            loader.style.display='block'; 
-            try { 
-                const response=await fetch('/download', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:url})}); 
-                const data=await response.json(); 
-                loader.style.display='none'; 
-                if(data.success) { 
-                    currentVideoData = data;
-                    document.getElementById('videoPreview').src=data.video_url; 
-                    document.getElementById('vidTitle').innerText=data.title; 
-                    document.getElementById('vidAuthor').innerText='@'+data.author; 
-                    document.getElementById('btnStandard').href=data.video_url; 
-                    document.getElementById('btnAudio').href=data.music_url; 
-                    const btnHD=document.getElementById('btnHD'); 
-                    if(data.hd_url && data.hd_url!==data.video_url) { btnHD.href=data.hd_url; btnHD.style.display='flex'; } else { btnHD.style.display='none'; } 
-                    resArea.style.display='block'; 
-                    addToHistory(data.title, data.cover, url, data.author); 
-                    showToast("Video Siap! 🔥"); 
-                } else { showToast(data.error); } 
-            } catch(err) { loader.style.display='none'; showToast("Server Error 😭"); } 
-        }
-
-        function addToHistory(t,c,u,a) { let h=JSON.parse(localStorage.getItem('ttPurpleBlue'))||[]; h.unshift({t,c,u,a}); if(h.length>5)h.pop(); localStorage.setItem('ttPurpleBlue',JSON.stringify(h)); renderHistory(); }
-        function renderHistory() { const list=document.getElementById('historyList'); const h=JSON.parse(localStorage.getItem('ttPurpleBlue'))||[]; list.innerHTML=''; if(h.length===0) { list.innerHTML='<p style="text-align:center;color:var(--text-secondary);font-size:12px;">Belum ada riwayat.</p>'; return; } h.forEach(i => { list.innerHTML+=`<div class="h-item" onclick="fillInput('${i.u}')"><img src="${i.c}"><div class="h-text"><p>${i.t}</p><span>@${i.a}</span></div><i class="fas fa-play" style="margin-left:auto;color:var(--text-secondary);font-size:10px;"></i></div>`; }); }
-        function fillInput(u) { vibrate(); document.getElementById('tiktokUrl').value=u; document.getElementById('clearBtn').style.display='block'; downloadVideo(); }
-        function clearHistory() { vibrate(); localStorage.removeItem('ttPurpleBlue'); renderHistory(); showToast("Riwayat Bersih 🧹"); }
-        renderHistory();
     </script>
 </body>
 </html>
