@@ -83,6 +83,29 @@ app.listen(PORT, () => {
     // ...
 });
 
+// ... kode robots.txt yang tadi ...
+
+// --- SITEMAP XML (Peta Situs untuk Google) ---
+app.get('/sitemap.xml', (req, res) => {
+    res.type('application/xml'); // Kasih tahu browser ini format XML
+    const date = new Date().toISOString().split('T')[0]; // Tanggal hari ini
+    
+    // Ganti LINK_INI dengan link asli render kamu (tanpa garis miring di akhir)
+    const myDomain = "https://tiktok-sgproject.onrender.com"; 
+
+    res.send(`<?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        <url>
+            <loc>${myDomain}/</loc>
+            <lastmod>${date}</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.0</priority>
+        </url>
+    </urlset>`);
+});
+
+// ... app.listen ada di bawah sini ...
+
 app.listen(PORT, () => {
     console.log(`Server Aman + Anti-Spam berjalan di Port ${PORT}`);
 });
